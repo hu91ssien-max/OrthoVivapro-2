@@ -11,7 +11,9 @@ import {
   Presentation, 
   Search, 
   Zap, 
-  Scissors 
+  Scissors,
+  Award,
+  Medal
 } from "lucide-react";
 
 interface DashboardProps {
@@ -19,6 +21,7 @@ interface DashboardProps {
 }
 
 const CATEGORIES = [
+  { id: "oite2025", name: "AAOS OiTE 2025", icon: Medal, count: 250, color: "bg-indigo-600/10 text-indigo-600 border-indigo-600/20", featured: true },
   { id: "trauma", name: "Trauma & Fractures", icon: Crosshair, count: 120, color: "bg-red-500/10 text-red-500 border-red-500/20" },
   { id: "pediatric", name: "Pediatric Ortho", icon: Activity, count: 85, color: "bg-rose-500/10 text-rose-500 border-rose-500/20" },
   { id: "sports", name: "Sports Medicine", icon: Heart, count: 94, color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" },
@@ -110,15 +113,23 @@ export default function Dashboard({ onSelect }: DashboardProps) {
               transition={{ duration: 0.2 }}
               className={`p-8 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-[2rem] shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group relative flex flex-col h-full overflow-hidden`}
             >
-              <div className={`p-4 rounded-2xl mb-6 w-fit ${cat.color} border dark:border-slate-700 shadow-inner transition-transform group-hover:scale-110`}>
+              <div className={`p-4 rounded-2xl mb-6 w-fit ${cat.color} border dark:border-slate-700 shadow-inner transition-transform group-hover:scale-110 relative`}>
                 <cat.icon className="w-8 h-8" />
+                {(cat as any).featured && (
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white dark:border-slate-900 animate-ping" />
+                )}
               </div>
               
-              <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight italic uppercase transition-colors">{cat.name}</h3>
-              <p className="text-[10px] text-gray-400 dark:text-slate-500 font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2 transition-colors">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight italic uppercase transition-colors">{cat.name}</h3>
+                {(cat as any).featured && (
+                  <span className="px-2 py-0.5 bg-indigo-600 text-[8px] text-white font-black rounded uppercase tracking-tighter">New</span>
+                )}
+              </div>
+              <div className="text-[10px] text-gray-400 dark:text-slate-500 font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2 transition-colors">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {cat.count} Validated Questions
-              </p>
+              </div>
 
               <div className="space-y-4 mt-auto">
                 <div className="grid grid-cols-2 gap-4">

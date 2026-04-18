@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import QuestionBank from "./components/QuestionBank";
 import PediatricOrthoRevision from "./components/PediatricOrthoRevision";
-import ACLInfographic from "./components/ACLInfographic";
+import SportsMedicineRevision from "./components/SportsMedicineRevision";
 import PathologyViva from "./components/PathologyViva";
 import Analytics from "./components/Analytics";
 import Profile from "./components/Profile";
@@ -69,7 +69,7 @@ export default function App() {
                 onBack={() => setPage("dashboard")} 
               />
             ) : category === "sports" ? (
-              <ACLInfographic 
+              <SportsMedicineRevision 
                 onBack={() => setPage("dashboard")}
                 onPractice={() => {
                   setIsStudyMode(true);

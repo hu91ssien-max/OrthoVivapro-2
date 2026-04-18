@@ -13,7 +13,10 @@ import {
   ArrowLeft,
   Activity,
   Award,
-  CircleDashed
+  CircleDashed,
+  LayoutGrid,
+  Maximize2,
+  X
 } from "lucide-react";
 
 interface QuestionBankProps {
@@ -28,6 +31,7 @@ interface UserAnswer {
   correctOption: string;
   isCorrect: boolean;
   explanation?: string;
+  images?: string[];
 }
 
 const TIMER_DURATION = 30;
@@ -42,6 +46,7 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
   const [showReview, setShowReview] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -74,7 +79,7 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
   }, [timeLeft, isFinished, selectedOption, studyMode]);
 
   const handleOptionSelect = (index: number) => {
-    if (selectedOption !== null || isFinished) return;
+    if (selectedOption !== null || isFinished || !currentQuestion) return;
     
     if (timerRef.current) clearInterval(timerRef.current);
     
@@ -96,7 +101,8 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
       selectedOption: index === -1 ? "Timeout" : currentQuestion.options[index],
       correctOption: currentQuestion.answer,
       isCorrect,
-      explanation: currentQuestion.explanation
+      explanation: currentQuestion.explanation,
+      images: currentQuestion.images
     };
 
     setUserAnswers(prev => [...prev, answerRecord]);
@@ -111,6 +117,25 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
     setTimeLeft(TIMER_DURATION);
     setUserAnswers([]);
     setShowReview(false);
+  };
+
+  const jumpToQuestion = (index: number) => {
+    if (index === currentIndex) return;
+    
+    const targetQuestion = questions[index];
+    const completedAnswer = userAnswers.find(ans => ans.questionId === targetQuestion.id);
+    
+    setCurrentIndex(index);
+    
+    if (completedAnswer) {
+      const optIndex = targetQuestion.options.indexOf(completedAnswer.selectedOption);
+      setSelectedOption(optIndex === -1 ? -1 : optIndex);
+      setShowExplanation(true);
+    } else {
+      setSelectedOption(null);
+      setShowExplanation(false);
+      setTimeLeft(TIMER_DURATION);
+    }
   };
 
   if (!currentQuestion && !isFinished) {
@@ -217,6 +242,29 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
                 </div>
                 <div className="space-y-4 flex-1">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight transition-colors">{item.questionText}</h3>
+                  {item.images && item.images.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                      {item.images.map((img, i) => (
+                        <div 
+                          key={i} 
+                          onClick={() => setZoomedImage(img)}
+                          className="group relative rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 transition-colors cursor-zoom-in"
+                        >
+                          <img 
+                            src={img} 
+                            alt={`Review image ${i + 1}`} 
+                            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                             <div className="bg-white/90 dark:bg-slate-900/90 p-2 rounded-full shadow-lg">
+                               <Maximize2 size={16} className="text-indigo-600" />
+                             </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="p-4 bg-gray-50 dark:bg-slate-950 rounded-2xl border border-gray-100 dark:border-slate-800 transition-colors">
                       <span className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest block mb-1 transition-colors">Your Identification</span>
@@ -308,11 +356,46 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
           className="space-y-8"
         >
           {/* Question Text */}
-          <div className="relative p-8 px-0">
-             <div className="absolute top-0 left-0 text-7xl font-black text-gray-100 dark:text-slate-900 select-none -translate-x-10 -translate-y-6 transition-colors">Q</div>
-             <p className="text-3xl leading-tight text-gray-900 dark:text-white font-bold tracking-tight relative z-10 italic transition-colors">
-               {currentQuestion.question}
-             </p>
+          <div className="space-y-6">
+            <div className="relative p-8 px-0">
+               <div className="absolute top-0 left-0 text-7xl font-black text-gray-100 dark:text-slate-900 select-none -translate-x-10 -translate-y-6 transition-colors">Q</div>
+               <p className="text-3xl leading-tight text-gray-900 dark:text-white font-bold tracking-tight relative z-10 italic transition-colors">
+                 {currentQuestion.question}
+               </p>
+            </div>
+
+            {currentQuestion.images && currentQuestion.images.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 transition-colors">
+                {currentQuestion.images.map((img, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.2 }}
+                    onClick={() => setZoomedImage(img)}
+                    className="group relative rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-colors cursor-zoom-in"
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Clinical figure ${idx + 1}`} 
+                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-2xl shadow-xl flex items-center gap-2">
+                        <Maximize2 size={18} className="text-indigo-600" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white">Expand Figure</span>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
+                        Figure {idx + 1}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Options Grid */}
@@ -373,7 +456,7 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
                 animate={{ opacity: 1, x: 0 }}
                 onClick={() => setShowExplanation(!showExplanation)}
                 className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all border
-                  ${showExplanation ? 'bg-slate-900 dark:bg-indigo-600 border-slate-900 dark:border-indigo-600 text-white shadow-xl' : 'bg-white dark:bg-slate-900 border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-500 hover:text-gray-900 dark:hover:text-white hover:border-gray-900 dark:hover:border-slate-700'} transition-colors`}
+                  ${showExplanation ? 'bg-slate-100 dark:bg-indigo-600/20 border-indigo-200 dark:border-indigo-600/30 text-indigo-700 dark:text-indigo-400' : 'bg-white dark:bg-slate-900 border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-500 hover:text-gray-900 dark:hover:text-white hover:border-gray-900 dark:hover:border-slate-700'} transition-colors`}
               >
                 <Award size={14} />
                 {showExplanation ? 'Hide Rationale' : 'Clinical Rationale'}
@@ -399,6 +482,37 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
         </button>
       </div>
 
+      {/* Question Navigator */}
+      <div className="mt-16 pt-10 border-t border-gray-100 dark:border-slate-800">
+        <div className="flex items-center gap-3 mb-6">
+          <LayoutGrid size={16} className="text-gray-400" />
+          <h4 className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Case Navigator</h4>
+        </div>
+        <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3">
+          {questions.map((q, idx) => {
+            const isCurrent = idx === currentIndex;
+            const userAnswer = userAnswers.find(ans => ans.questionId === q.id);
+            const isAnswered = !!userAnswer;
+            const isCorrect = userAnswer?.isCorrect;
+
+            return (
+              <button
+                key={idx}
+                onClick={() => jumpToQuestion(idx)}
+                className={`
+                  aspect-square rounded-xl flex items-center justify-center font-black text-xs transition-all border-2
+                  ${isCurrent ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg scale-110 z-10' : 
+                    isAnswered ? (isCorrect ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-500 dark:border-emerald-500/50 text-emerald-600 dark:text-emerald-500' : 'bg-rose-50 dark:bg-rose-500/10 border-rose-500 dark:border-rose-500/50 text-rose-600 dark:text-rose-500') :
+                    'bg-white dark:bg-slate-900 border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-600 hover:border-indigo-600 hover:text-indigo-600'}
+                `}
+              >
+                {idx + 1}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Explanation Box */}
       <AnimatePresence>
         {showExplanation && (
@@ -418,6 +532,43 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
             <p className="text-gray-700 dark:text-slate-400 text-lg leading-relaxed font-medium relative z-10 transition-colors">
               {currentQuestion.explanation || "Scientific rationale for this case is currently being updated in the OrthoViva library."}
             </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Zoom Modal Overlay */}
+      <AnimatePresence>
+        {zoomedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setZoomedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/95 backdrop-blur-xl p-4 sm:p-10 cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-5xl w-full max-h-full flex items-center justify-center p-2 bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden"
+            >
+              <img
+                src={zoomedImage}
+                alt="Zoomed figure"
+                className="w-full h-full object-contain rounded-2xl"
+                referrerPolicy="no-referrer"
+              />
+              <button
+                onClick={() => setZoomedImage(null)}
+                className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-2xl flex items-center justify-center transition-all shadow-xl"
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full border border-white/10">
+                Clinical Diagnostic View
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
