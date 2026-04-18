@@ -367,45 +367,60 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
           exit={{ opacity: 0, x: -20 }}
           className="space-y-8"
         >
-          {/* Question Text */}
-          <div className="space-y-6">
-            <div className="relative p-8 px-0">
-               <div className="absolute top-0 left-0 text-7xl font-black text-gray-100 dark:text-slate-900 select-none -translate-x-10 -translate-y-6 transition-colors">Q</div>
-               <p className="text-3xl leading-tight text-gray-900 dark:text-white font-bold tracking-tight relative z-10 italic transition-colors">
-                 {currentQuestion.question}
-               </p>
-            </div>
+      {/* Question Text */}
+      <div className="space-y-6">
+        <div className="relative p-8 px-0">
+          <div className="absolute top-0 left-0 text-7xl font-black text-gray-100 dark:text-slate-900 select-none -translate-x-10 -translate-y-6 transition-colors">Q</div>
+          <p className="text-3xl leading-tight text-gray-900 dark:text-white font-bold tracking-tight relative z-10 italic transition-colors">
+            {currentQuestion.question}
+          </p>
+        </div>
 
-            {/* Responsive Image Rendering */}
-            {(() => {
-              const allImages = [
-                ...(currentQuestion.image ? [currentQuestion.image] : []),
-                ...(currentQuestion.images || [])
-              ];
-              
-              if (allImages.length === 0) return null;
+        {/* Clinical Figure Rendering */}
+        <div className="space-y-4">
+          {/* Support for singular image field as requested */}
+          {currentQuestion.image && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={() => setZoomedImage(currentQuestion.image!)}
+              className="group relative inline-block rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-colors cursor-zoom-in"
+            >
+              <img 
+                src={currentQuestion.image} 
+                alt="question image" 
+                className="max-w-full h-auto rounded-xl transition-transform duration-300 group-hover:scale-[1.01]"
+                style={{ borderRadius: "12px", marginTop: "10px" }}
+              />
+              <div className="absolute top-6 left-4">
+                <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
+                  Clinical Figure
+                </span>
+              </div>
+            </motion.div>
+          )}
 
-              return (
-                <div className="flex flex-wrap gap-4 mt-6">
-                  {allImages.map((img, idx) => (
-                    <div key={idx} className="relative group cursor-zoom-in" onClick={() => setZoomedImage(img)}>
-                      <img 
-                        src={img} 
-                        alt={`Clinical figure ${idx + 1}`} 
-                        className="max-w-full h-auto rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm transition-transform duration-300 group-hover:scale-[1.02]"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                          Figure {idx + 1}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+          {/* Support for multiple images array */}
+          {currentQuestion.images && currentQuestion.images.length > 0 && (
+            <div className="flex flex-wrap gap-4 mt-4">
+              {currentQuestion.images.map((img, idx) => (
+                <div key={idx} className="relative group cursor-zoom-in" onClick={() => setZoomedImage(img)}>
+                  <img 
+                    src={img} 
+                    alt={`Clinical figure ${idx + 1}`} 
+                    className="max-w-full h-auto rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
+                      Figure {idx + 1}
+                    </span>
+                  </div>
                 </div>
-              );
-            })()}
-          </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
           {/* Options Grid */}
           <div className="grid gap-4">
