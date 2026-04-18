@@ -6,6 +6,7 @@ export interface Question {
   answer: string;
   explanation?: string;
   images?: string[];
+  image?: string;
 }
 
 export const QUESTION_BANK: Record<string, Question[]> = {
