@@ -378,6 +378,7 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
                     <img 
                       src={img} 
                       alt={`Clinical figure ${idx + 1}`} 
+                      width="300"
                       className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
