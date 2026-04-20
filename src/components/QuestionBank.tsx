@@ -32,7 +32,6 @@ interface UserAnswer {
   isCorrect: boolean;
   explanation?: string;
   images?: string[];
-  image?: string;
 }
 
 const TIMER_DURATION = 30;
@@ -103,8 +102,7 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
       correctOption: currentQuestion.answer,
       isCorrect,
       explanation: currentQuestion.explanation,
-      images: currentQuestion.images,
-      image: currentQuestion.image
+      images: currentQuestion.images
     };
 
     setUserAnswers(prev => [...prev, answerRecord]);
@@ -244,39 +242,29 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
                 </div>
                 <div className="space-y-4 flex-1">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight transition-colors">{item.questionText}</h3>
-                  {/* Responsive Review Images */}
-                  {(() => {
-                    const allImages = [
-                      ...(item.image ? [item.image] : []),
-                      ...(item.images || [])
-                    ];
-                    
-                    if (allImages.length === 0) return null;
-
-                    return (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        {allImages.map((img, i) => (
-                          <div 
-                            key={i} 
-                            onClick={() => setZoomedImage(img)}
-                            className="group relative rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 transition-colors cursor-zoom-in"
-                          >
-                            <img 
-                              src={img} 
-                              alt={`Review image ${i + 1}`} 
-                              className="w-full h-auto max-h-64 object-contain transition-transform duration-500 group-hover:scale-105"
-                              referrerPolicy="no-referrer"
-                            />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                               <div className="bg-white/90 dark:bg-slate-900/90 p-2 rounded-full shadow-lg">
-                                 <Maximize2 size={16} className="text-indigo-600" />
-                               </div>
-                            </div>
+                  {item.images && item.images.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                      {item.images.map((img, i) => (
+                        <div 
+                          key={i} 
+                          onClick={() => setZoomedImage(img)}
+                          className="group relative rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 transition-colors cursor-zoom-in"
+                        >
+                          <img 
+                            src={img} 
+                            alt={`Review image ${i + 1}`} 
+                            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                             <div className="bg-white/90 dark:bg-slate-900/90 p-2 rounded-full shadow-lg">
+                               <Maximize2 size={16} className="text-indigo-600" />
+                             </div>
                           </div>
-                        ))}
-                      </div>
-                    );
-                  })()}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="p-4 bg-gray-50 dark:bg-slate-950 rounded-2xl border border-gray-100 dark:border-slate-800 transition-colors">
                       <span className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest block mb-1 transition-colors">Your Identification</span>
@@ -376,50 +364,38 @@ export default function QuestionBank({ category, studyMode = false }: QuestionBa
           </p>
         </div>
 
-        {/* Clinical Figure Rendering */}
-        <div className="space-y-4">
-          {/* Support for singular image field as requested */}
-          {currentQuestion.image && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={() => setZoomedImage(currentQuestion.image!)}
-              className="group relative inline-block rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-colors cursor-zoom-in"
-            >
-              <img 
-                src={currentQuestion.image} 
-                alt="question image" 
-                className="max-w-full h-auto rounded-xl transition-transform duration-300 group-hover:scale-[1.01]"
-                style={{ borderRadius: "12px", marginTop: "10px" }}
-              />
-              <div className="absolute top-6 left-4">
-                <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                  Clinical Figure
-                </span>
+            {currentQuestion.images && currentQuestion.images.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 transition-colors">
+                {currentQuestion.images.map((img, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.2 }}
+                    onClick={() => setZoomedImage(img)}
+                    className="group relative rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-colors cursor-zoom-in"
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Clinical figure ${idx + 1}`} 
+                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-2xl shadow-xl flex items-center gap-2">
+                        <Maximize2 size={18} className="text-indigo-600" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white">Expand Figure</span>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
+                        Figure {idx + 1}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </motion.div>
-          )}
-
-          {/* Support for multiple images array */}
-          {currentQuestion.images && currentQuestion.images.length > 0 && (
-            <div className="flex flex-wrap gap-4 mt-4">
-              {currentQuestion.images.map((img, idx) => (
-                <div key={idx} className="relative group cursor-zoom-in" onClick={() => setZoomedImage(img)}>
-                  <img 
-                    src={img} 
-                    alt={`Clinical figure ${idx + 1}`} 
-                    className="max-w-full h-auto rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm transition-transform duration-300 group-hover:scale-[1.02]"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                      Figure {idx + 1}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            )}
       </div>
 
           {/* Options Grid */}

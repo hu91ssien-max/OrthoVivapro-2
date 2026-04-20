@@ -6,7 +6,6 @@ export interface Question {
   answer: string;
   explanation?: string;
   images?: string[];
-  image?: string;
 }
 
 export const QUESTION_BANK: Record<string, Question[]> = {
@@ -342,8 +341,7 @@ export const QUESTION_BANK: Record<string, Question[]> = {
       images: [
         "/knee_dislocation_1.jpg",
         "/knee_dislocation_2.jpg"
-      ],
-      image: "/knee_dislocation_1.jpg"
+      ]
     }
   ]
 };

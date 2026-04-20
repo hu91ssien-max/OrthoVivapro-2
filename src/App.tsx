@@ -5,11 +5,13 @@ import QuestionBank from "./components/QuestionBank";
 import PediatricOrthoRevision from "./components/PediatricOrthoRevision";
 import SportsMedicineRevision from "./components/SportsMedicineRevision";
 import PathologyViva from "./components/PathologyViva";
+import THAFixationInfographic from "./components/THAFixationInfographic";
 import Analytics from "./components/Analytics";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import { useAuth } from "./context/AuthContext";
 import { Loader2 } from "lucide-react";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
 export default function App() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -76,6 +78,10 @@ export default function App() {
                   setPage("mcq");
                 }}
               />
+            ) : category === "recon" ? (
+              <THAFixationInfographic 
+                onBack={() => setPage("dashboard")}
+              />
             ) : (
               <div className="max-w-4xl mx-auto py-20 text-center">
                 <h2 className="text-2xl font-bold mb-4">Revision Guide Coming Soon</h2>
@@ -91,6 +97,7 @@ export default function App() {
           </>
         )}
       </main>
+      <VercelAnalytics />
     </div>
   );
 }
