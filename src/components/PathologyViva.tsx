@@ -103,28 +103,28 @@ const PathologyViva = ({ onBack }: PathologyVivaProps) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-slate-50 dark:bg-slate-950 font-sans transition-colors duration-300">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-slate-50 font-sans transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 h-16 flex items-center justify-between sticky top-0 z-30 transition-colors">
+      <div className="bg-white border-b border-slate-200 px-4 h-16 flex items-center justify-between sticky top-0 z-30 transition-colors">
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white font-bold transition-colors"
+          className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors"
         >
           <ArrowLeft size={18} />
           <span className="hidden sm:inline">Exit Session</span>
         </button>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 dark:shadow-none italic font-black">
+          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 italic font-black">
             P
           </div>
           <div>
-            <h1 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic transition-colors">Pathology <span className="text-indigo-600">Viva Simulator</span></h1>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest transition-colors">Powered by OrthoViva AI</p>
+            <h1 className="text-sm font-black text-slate-900 uppercase tracking-tighter italic transition-colors">Pathology <span className="text-indigo-600">Viva Simulator</span></h1>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest transition-colors">Powered by OrthoViva AI</p>
           </div>
         </div>
         <button 
           onClick={initiateViva}
-          className="p-2 text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          className="p-2 text-slate-400 hover:text-indigo-600 transition-colors"
           title="Restart Session"
         >
           <RotateCcw size={20} />
@@ -136,24 +136,24 @@ const PathologyViva = ({ onBack }: PathologyVivaProps) => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-md w-full bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 transition-colors"
+            className="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-2xl border border-slate-100 transition-colors"
           >
-            <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-8 transition-colors">
+            <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-8 transition-colors">
               <Sparkles size={40} />
             </div>
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter mb-4 transition-colors">Start Your <span className="text-indigo-600">Viva Voce</span></h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-10 leading-relaxed transition-colors">
+            <h2 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter mb-4 transition-colors">Start Your <span className="text-indigo-600">Viva Voce</span></h2>
+            <p className="text-sm text-slate-500 font-medium mb-10 leading-relaxed transition-colors">
               Experience a realistic orthopedic pathology board exam. Our AI examiner will challenge your knowledge on tumors, infections, and metabolic disorders.
             </p>
             <div className="space-y-4">
               <button 
                 onClick={initiateViva}
-                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 dark:shadow-none flex items-center justify-center gap-3 active:scale-95"
+                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 flex items-center justify-center gap-3 active:scale-95"
               >
                 Enter Examination Hall
                 <Zap size={18} />
               </button>
-              <div className="flex items-center justify-center gap-6 pt-4 text-slate-400 dark:text-slate-500 uppercase text-[10px] font-black tracking-widest transition-colors">
+              <div className="flex items-center justify-center gap-6 pt-4 text-slate-400 uppercase text-[10px] font-black tracking-widest transition-colors">
                 <span className="flex items-center gap-1.5"><Activity size={12} /> Real-time Feedback</span>
                 <span className="flex items-center gap-1.5"><Trophy size={12} /> Board Standard</span>
               </div>
@@ -175,13 +175,13 @@ const PathologyViva = ({ onBack }: PathologyVivaProps) => {
                 className={`flex ${msg.role === 'student' ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`flex gap-4 max-w-[85%] ${msg.role === 'student' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${msg.role === 'student' ? 'bg-slate-900 dark:bg-white text-slate-200 dark:text-slate-900' : 'bg-indigo-600 text-white shadow-lg shadow-indigo-100 dark:shadow-none'} transition-colors`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${msg.role === 'student' ? 'bg-slate-900 text-slate-200' : 'bg-indigo-600 text-white shadow-lg shadow-indigo-100'} transition-colors`}>
                     {msg.role === 'student' ? <User size={14} /> : <Bot size={14} />}
                   </div>
                   <div className={`p-5 rounded-2xl text-sm leading-relaxed shadow-sm border transition-colors ${
                     msg.role === 'student' 
-                    ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-800 dark:border-slate-100 rounded-tr-none' 
-                    : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 rounded-tl-none prose prose-indigo prose-sm max-w-none'
+                    ? 'bg-slate-900 text-white border-slate-800 rounded-tr-none' 
+                    : 'bg-white text-slate-800 border-slate-200 rounded-tl-none prose prose-indigo prose-sm max-w-none'
                   }`}>
                     {msg.content.split('\n').map((line, idx) => (
                       <p key={idx} className={idx > 0 ? "mt-2" : ""}>{line}</p>
@@ -209,7 +209,7 @@ const PathologyViva = ({ onBack }: PathologyVivaProps) => {
           </div>
 
           {/* Input Area */}
-          <div className="fixed bottom-0 left-0 right-0 bg-slate-50 dark:bg-slate-950 p-4 border-t border-slate-200 dark:border-slate-800 transition-colors">
+          <div className="fixed bottom-0 left-0 right-0 bg-slate-50 p-4 border-t border-slate-200 transition-colors">
             <div className="max-w-4xl mx-auto flex gap-3">
               <input 
                 type="text" 
@@ -217,12 +217,12 @@ const PathologyViva = ({ onBack }: PathologyVivaProps) => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Type your response here..."
-                className="flex-grow bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 dark:text-white focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-500/10 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                className="flex-grow bg-white border-2 border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400"
               />
               <button 
                 onClick={handleSend}
                 disabled={isThinking || !input.trim()}
-                className="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 transition-all shadow-xl shadow-indigo-100 dark:shadow-none"
+                className="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center hover:bg-indigo-700 disabled:bg-slate-300 transition-all shadow-xl shadow-indigo-100"
               >
                 <Send size={20} />
               </button>

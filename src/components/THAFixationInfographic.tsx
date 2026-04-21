@@ -83,7 +83,7 @@ const THAFixationInfographic = ({ onBack }: THAFixationInfographicProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-white p-4 md:p-8 font-sans transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         {/* Navigation */}
         {onBack && (
@@ -91,7 +91,7 @@ const THAFixationInfographic = ({ onBack }: THAFixationInfographicProps) => {
             onClick={onBack}
             className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-6 transition-colors group"
           >
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
+            <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
               <ArrowLeft size={16} />
             </div>
             <span className="font-bold text-xs uppercase tracking-widest">Back to Dashboard</span>
@@ -124,11 +124,11 @@ const THAFixationInfographic = ({ onBack }: THAFixationInfographicProps) => {
                 className={`w-full group flex items-center justify-between p-4 rounded-2xl transition-all duration-300 border-2 ${
                   activeTab === key 
                     ? `${section.bg} border-${key === 'comparison' ? 'blue' : key === 'dorr' ? 'emerald' : key === 'cemented' ? 'amber' : key === 'biologic' ? 'purple' : 'rose'}-500 ${section.color} shadow-lg scale-105` 
-                    : 'bg-white border-transparent text-slate-500 hover:bg-slate-100'
+                    : 'bg-white border-gray-100 text-slate-500 hover:bg-slate-100'
                 }`}
               >
                 <div className="flex items-center gap-3 font-bold text-sm uppercase tracking-wide">
-                  <div className={`p-2 rounded-lg ${activeTab === key ? 'bg-white' : 'bg-slate-50'}`}>
+                  <div className={`p-2 rounded-lg ${activeTab === key ? 'bg-white' : 'bg-gray-50'}`}>
                     {section.icon}
                   </div>
                   {section.title}
@@ -149,57 +149,57 @@ const THAFixationInfographic = ({ onBack }: THAFixationInfographicProps) => {
             </div>
           </nav>
 
-          {/* Details */}
-          <div className="lg:col-span-8">
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 min-h-[580px] p-8 flex flex-col">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-4">
-                  <div className={`p-4 rounded-2xl ${content[activeTab].bg} ${content[activeTab].color}`}>
-                    {content[activeTab].icon}
-                  </div>
-                  <div>
-                    <h2 className={`text-2xl font-black uppercase tracking-tight ${content[activeTab].color}`}>
-                      {content[activeTab].title}
-                    </h2>
-                    <div className={`h-1 w-12 mt-1 rounded-full ${content[activeTab].color.replace('text', 'bg')}`} />
-                  </div>
-                </div>
-                <Maximize2 size={20} className="text-slate-300" />
+      {/* Details */}
+      <div className="lg:col-span-8">
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 min-h-[580px] p-8 flex flex-col transition-colors">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className={`p-4 rounded-2xl ${content[activeTab].bg} ${content[activeTab].color}`}>
+                {content[activeTab].icon}
               </div>
-
-              <div className="space-y-8 flex-grow">
-                {content[activeTab].items.map((item: any, idx: number) => (
-                  <div key={idx} className="relative pl-6 group">
-                    <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-full ${content[activeTab].color.replace('text', 'bg')} opacity-20 group-hover:opacity-100 transition-all`} />
-                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">
-                      {item.label}
-                    </h4>
-                    <p className="text-slate-700 text-lg font-medium leading-relaxed">
-                      {item.text}
-                    </p>
-                  </div>
-                ))}
+              <div>
+                <h2 className={`text-2xl font-black uppercase tracking-tight ${content[activeTab].color}`}>
+                  {content[activeTab].title}
+                </h2>
+                <div className={`h-1 w-12 mt-1 rounded-full ${content[activeTab].color.replace('text', 'bg')}`} />
               </div>
+            </div>
+            <Maximize2 size={20} className="text-slate-300" />
+          </div>
 
-              {/* Contextual Visualizer: Dorr Class */}
-              {activeTab === 'dorr' && (
-                <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-emerald-100">
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <div className="text-xl font-black text-emerald-600">&lt; 0.5</div>
-                      <div className="text-[10px] text-slate-400 font-bold uppercase">Type A Ratio</div>
-                    </div>
-                    <div className="border-x border-slate-200 px-4">
-                      <div className="text-xl font-black text-emerald-700">Type B</div>
-                      <div className="text-[10px] text-slate-400 font-bold uppercase">Transition</div>
-                    </div>
-                    <div>
-                      <div className="text-xl font-black text-rose-600">&gt; 0.75</div>
-                      <div className="text-[10px] text-slate-400 font-bold uppercase">Type C Ratio</div>
-                    </div>
-                  </div>
+          <div className="space-y-8 flex-grow">
+            {content[activeTab].items.map((item: any, idx: number) => (
+              <div key={idx} className="relative pl-6 group">
+                <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-full ${content[activeTab].color.replace('text', 'bg')} opacity-20 group-hover:opacity-100 transition-all`} />
+                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1 transition-colors">
+                  {item.label}
+                </h4>
+                <p className="text-slate-700 text-lg font-medium leading-relaxed transition-colors">
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Contextual Visualizer: Dorr Class */}
+          {activeTab === 'dorr' && (
+            <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-emerald-100 transition-colors">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="text-xl font-black text-emerald-600">&lt; 0.5</div>
+                  <div className="text-[10px] text-slate-400 font-bold uppercase transition-colors">Type A Ratio</div>
                 </div>
-              )}
+                <div className="border-x border-slate-200 px-4 transition-colors">
+                  <div className="text-xl font-black text-emerald-700">Type B</div>
+                  <div className="text-[10px] text-slate-400 font-bold uppercase transition-colors">Transition</div>
+                </div>
+                <div>
+                  <div className="text-xl font-black text-rose-600">&gt; 0.75</div>
+                  <div className="text-[10px] text-slate-400 font-bold uppercase transition-colors">Type C Ratio</div>
+                </div>
+              </div>
+            </div>
+          )}
 
               {/* Contextual Visualizer: Biologic Numbers */}
               {activeTab === 'biologic' && (

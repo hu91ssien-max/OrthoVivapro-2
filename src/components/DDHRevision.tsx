@@ -128,15 +128,15 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans pb-20 transition-colors duration-300"
+      className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-20 transition-colors duration-300"
     >
       {/* Utility Bar */}
-      <div className="bg-blue-900 dark:bg-slate-900 border-b border-blue-800 dark:border-slate-800 sticky top-0 z-50 shadow-md transition-colors">
+      <div className="bg-blue-900 border-b border-blue-800 sticky top-0 z-50 shadow-md transition-colors">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button 
               onClick={onBack}
-              className="p-2 hover:bg-blue-800 dark:hover:bg-slate-800 rounded-lg text-blue-200 dark:text-slate-400 transition-colors"
+              className="p-2 hover:bg-blue-800 rounded-lg text-blue-200 transition-colors"
             >
               <ArrowLeft size={20} />
             </button>
@@ -145,23 +145,23 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
           <div className="flex gap-4 items-center">
              <button 
                onClick={onPractice}
-               className="hidden md:flex items-center gap-2 text-xs font-black uppercase bg-blue-800 dark:bg-indigo-600 hover:bg-blue-700 dark:hover:bg-indigo-700 text-blue-100 px-4 py-2 rounded-full transition-all border border-blue-700 dark:border-indigo-500/50"
+               className="hidden md:flex items-center gap-2 text-xs font-black uppercase bg-blue-800 hover:bg-blue-700 text-blue-100 px-4 py-2 rounded-full transition-all border border-blue-700"
              >
                <BookOpen size={14} />
                Practice
              </button>
-             <div className="text-xs font-black uppercase tracking-widest text-blue-200 dark:text-slate-500 border-l border-blue-700 dark:border-slate-800 pl-4 transition-colors">Pediatrics</div>
+             <div className="text-xs font-black uppercase tracking-widest text-blue-200 border-l border-blue-700 pl-4 transition-colors">Pediatrics</div>
           </div>
         </div>
       </div>
 
       {/* Header */}
-      <header className="bg-gradient-to-br from-blue-800 to-blue-600 dark:from-slate-900 dark:to-indigo-950 text-white pt-16 pb-24 px-4 text-center overflow-hidden relative transition-colors">
+      <header className="bg-gradient-to-br from-blue-800 to-blue-600 text-white pt-16 pb-24 px-4 text-center overflow-hidden relative transition-colors">
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block bg-blue-900/50 dark:bg-indigo-600/20 backdrop-blur-sm text-blue-200 dark:text-indigo-400 px-4 py-1.5 rounded-full text-[10px] font-black mb-6 uppercase tracking-[0.3em] border border-blue-700/50 dark:border-indigo-500/30"
+            className="inline-block bg-blue-900/50 backdrop-blur-sm text-blue-200 px-4 py-1.5 rounded-full text-[10px] font-black mb-6 uppercase tracking-[0.3em] border border-blue-700/50"
           >
             High-Yield Review
           </motion.div>
@@ -171,74 +171,74 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter uppercase italic"
           >
-            Developmental Dysplasia <br /> <span className="text-blue-300 dark:text-indigo-400">of the Hip</span>
+            Developmental Dysplasia <br /> <span className="text-blue-300">of the Hip</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-lg text-blue-100 dark:text-slate-300 max-w-2xl mx-auto font-medium opacity-80"
+            className="text-lg text-blue-100 max-w-2xl mx-auto font-medium opacity-80"
           >
             A spectrum of abnormal development ranging from minor instability to frank dislocation.
           </motion.p>
         </div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 dark:bg-indigo-600 rounded-full blur-[120px] opacity-20 -mr-48 -mt-24"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-[120px] opacity-20 -mr-48 -mt-24"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-10 -ml-20 -mb-20"></div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 -mt-12 space-y-8 relative z-20">
 
         {/* The Clinical Spectrum */}
-        <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl p-8 md:p-12 border-t-8 border-blue-500 dark:border-indigo-600 transition-colors">
-          <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6 flex items-center gap-3 uppercase tracking-tighter italic">
-            <ClipboardList className="text-blue-600 dark:text-indigo-500" />
+        <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border-t-8 border-blue-500 transition-colors">
+          <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3 uppercase tracking-tighter italic">
+            <ClipboardList className="text-blue-600" />
             The Clinical Spectrum
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 font-bold text-sm mb-10 max-w-2xl leading-relaxed transition-colors">DDH represents a continuum of abnormal joint mechanics that escalate if unmanaged. Early clinical diagnosis is critical.</p>
+          <p className="text-slate-500 font-bold text-sm mb-10 max-w-2xl leading-relaxed transition-colors">DDH represents a continuum of abnormal joint mechanics that escalate if unmanaged. Early clinical diagnosis is critical.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div whileHover={{ y: -5 }} className="w-full bg-blue-50/50 dark:bg-blue-500/5 rounded-3xl p-8 text-center border-2 border-blue-50 dark:border-blue-500/10 transition-colors">
+            <motion.div whileHover={{ y: -5 }} className="w-full bg-blue-50/50 rounded-3xl p-8 text-center border-2 border-blue-50 transition-colors">
                 <div className="text-4xl mb-4">🎈</div>
-                <h3 className="font-black text-blue-800 dark:text-blue-400 text-lg uppercase italic tracking-tighter transition-colors">Instability</h3>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Hip is loose but remains located within the joint space.</p>
+                <h3 className="font-black text-blue-800 text-lg uppercase italic tracking-tighter transition-colors">Instability</h3>
+                <p className="text-xs font-bold text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Hip is loose but remains located within the joint space.</p>
             </motion.div>
-            <motion.div whileHover={{ y: -5 }} className="w-full bg-orange-50/50 dark:bg-orange-500/5 rounded-3xl p-8 text-center border-2 border-orange-50 dark:border-orange-500/10 transition-colors">
+            <motion.div whileHover={{ y: -5 }} className="w-full bg-orange-50/50 rounded-3xl p-8 text-center border-2 border-orange-50 transition-colors">
                 <div className="text-4xl mb-4">⚠️</div>
-                <h3 className="font-black text-orange-700 dark:text-orange-400 text-lg uppercase italic tracking-tighter transition-colors">Subluxation</h3>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Femoral head is partially displaced from the acetabulum.</p>
+                <h3 className="font-black text-orange-700 text-lg uppercase italic tracking-tighter transition-colors">Subluxation</h3>
+                <p className="text-xs font-bold text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Femoral head is partially displaced from the acetabulum.</p>
             </motion.div>
-            <motion.div whileHover={{ y: -5 }} className="w-full bg-rose-50/50 dark:bg-rose-500/5 rounded-3xl p-8 text-center border-2 border-rose-50 dark:border-rose-500/10 transition-colors">
+            <motion.div whileHover={{ y: -5 }} className="w-full bg-rose-50/50 rounded-3xl p-8 text-center border-2 border-rose-50 transition-colors">
                 <div className="text-4xl mb-4">🚨</div>
-                <h3 className="font-black text-rose-700 dark:text-rose-400 text-lg uppercase italic tracking-tighter transition-colors">Frank Dislocation</h3>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Femoral head is completely displaced out of the acetabulum.</p>
+                <h3 className="font-black text-rose-700 text-lg uppercase italic tracking-tighter transition-colors">Frank Dislocation</h3>
+                <p className="text-xs font-bold text-slate-500 mt-4 leading-relaxed uppercase tracking-wider transition-colors">Femoral head is completely displaced out of the acetabulum.</p>
             </motion.div>
           </div>
         </div>
 
         {/* AI CLINICAL ASSISTANT */}
-        <div id="ai-tools" className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-xl p-8 md:p-12 border-2 border-indigo-100 dark:border-slate-800 relative overflow-hidden transition-colors">
+        <div id="ai-tools" className="bg-white rounded-[2.5rem] shadow-xl p-8 md:p-12 border-2 border-indigo-100 relative overflow-hidden transition-colors">
           <div className="absolute top-0 right-0 p-12 opacity-5">
-            <Sparkles size={120} className="text-indigo-600 dark:text-white" />
+            <Sparkles size={120} className="text-indigo-600" />
           </div>
           
-          <div className="inline-block bg-indigo-600 text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 shadow-lg shadow-indigo-100 dark:shadow-none flex items-center gap-2">
+          <div className="inline-block bg-indigo-600 text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 shadow-lg shadow-indigo-100 flex items-center gap-2">
             <Sparkles size={14} />
             AI Clinical Assistant
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
             <div className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase italic tracking-tighter flex items-center gap-3">
-                <div className="p-2 bg-indigo-100 dark:bg-indigo-500/20 rounded-xl text-indigo-600 dark:text-indigo-400 transition-colors"><Activity size={20} /></div>
+              <h3 className="text-xl font-black text-slate-800 uppercase italic tracking-tighter flex items-center gap-3">
+                <div className="p-2 bg-indigo-100 rounded-xl text-indigo-600 transition-colors"><Activity size={20} /></div>
                 Case Simulator
               </h3>
-              <p className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-loose transition-colors">Generate a high-yield clinical vignette to test your knowledge on DDH management.</p>
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest leading-loose transition-colors">Generate a high-yield clinical vignette to test your knowledge on DDH management.</p>
               
               <div className="space-y-4">
                 <button 
                   onClick={handleGenerateCase} 
                   disabled={isGeneratingCase}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white text-[11px] font-black uppercase tracking-[0.2em] py-4 rounded-2xl transition shadow-xl shadow-indigo-100 dark:shadow-none flex justify-center items-center gap-3 active:scale-95"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white text-[11px] font-black uppercase tracking-[0.2em] py-4 rounded-2xl transition shadow-xl shadow-indigo-100 flex justify-center items-center gap-3 active:scale-95"
                 >
                   {isGeneratingCase ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -248,13 +248,13 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
                     </>
                   )}
                 </button>
-                <div className="min-h-[180px] bg-slate-50/50 dark:bg-slate-950/50 rounded-[2rem] p-8 text-sm text-slate-700 dark:text-slate-300 border-2 border-slate-100 dark:border-slate-800 leading-relaxed overflow-hidden transition-colors">
+                <div className="min-h-[180px] bg-slate-50/50 rounded-[2rem] p-8 text-sm text-slate-700 border-2 border-slate-100 leading-relaxed overflow-hidden transition-colors">
                   {caseResult ? (
-                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 prose prose-slate dark:prose-invert prose-sm max-w-none">
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 prose prose-slate prose-sm max-w-none">
                       {caseResult.split('\n').map((line, i) => <p key={i}>{line}</p>)}
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-slate-300 dark:text-slate-700 py-10 italic">
+                    <div className="flex flex-col items-center justify-center h-full text-slate-300 py-10 italic">
                       <LayoutGrid size={40} className="mb-4 opacity-50" />
                       Click to test your diagnosis skills
                     </div>
@@ -264,11 +264,11 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
             </div>
 
             <div className="flex flex-col gap-6">
-              <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase italic tracking-tighter flex items-center gap-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-500/20 rounded-xl text-blue-600 dark:text-blue-400 transition-colors"><Search size={20} /></div>
+              <h3 className="text-xl font-black text-slate-800 uppercase italic tracking-tighter flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-xl text-blue-600 transition-colors"><Search size={20} /></div>
                 Parent Translator
               </h3>
-              <p className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-loose transition-colors">Translate complex orthopedic jargon into simple language for families.</p>
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest leading-loose transition-colors">Translate complex orthopedic jargon into simple language for families.</p>
               
               <div className="space-y-4 flex-grow flex flex-col">
                 <div className="flex gap-3">
@@ -277,12 +277,12 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
                     value={term}
                     onChange={(e) => setTerm(e.target.value)}
                     placeholder="e.g. Acetabular Obliquity" 
-                    className="flex-grow border-2 border-slate-100/50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-2xl px-5 py-3 text-sm font-bold focus:ring-4 focus:ring-blue-100 dark:focus:ring-indigo-900 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700 dark:text-white"
+                    className="flex-grow border-2 border-slate-100/50 bg-slate-50/50 rounded-2xl px-5 py-3 text-sm font-bold focus:ring-4 focus:ring-blue-100 transition-all placeholder:text-slate-300"
                   />
                   <button 
                     onClick={handleTranslateTerm} 
                     disabled={isTranslating || !term}
-                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-black px-6 rounded-2xl transition shadow-lg shadow-blue-100 dark:shadow-none active:scale-95 flex items-center justify-center min-w-[60px]"
+                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-black px-6 rounded-2xl transition shadow-lg shadow-blue-100 active:scale-95 flex items-center justify-center min-w-[60px]"
                   >
                     {isTranslating ? (
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -291,14 +291,14 @@ const DDHRevision = ({ onBack, onPractice }: DDHRevisionProps) => {
                     )}
                   </button>
                 </div>
-                <div className="flex-grow min-h-[140px] bg-blue-50/30 dark:bg-blue-500/5 rounded-[2rem] p-8 text-sm text-blue-900 dark:text-blue-200 border-2 border-blue-50/50 dark:border-blue-950/50 leading-relaxed flex items-center justify-center transition-colors">
+                <div className="flex-grow min-h-[140px] bg-blue-50/30 rounded-[2rem] p-8 text-sm text-blue-900 border-2 border-blue-50/50 leading-relaxed flex items-center justify-center transition-colors">
                   {translateResult ? (
-                    <div className="animate-in fade-in duration-500 font-bold italic text-blue-800 dark:text-blue-200 text-center">
-                      <span className="text-xs text-blue-400 dark:text-slate-500 font-black block not-italic mb-3 uppercase tracking-widest">Parent-Friendly Explanation:</span>
+                    <div className="animate-in fade-in duration-500 font-bold italic text-blue-800 text-center">
+                      <span className="text-xs text-blue-400 font-black block not-italic mb-3 uppercase tracking-widest">Parent-Friendly Explanation:</span>
                       "{translateResult}"
                     </div>
                   ) : (
-                    <span className="text-blue-200 dark:text-slate-800 font-black uppercase text-[10px] tracking-widest">Enter a clinical term</span>
+                    <span className="text-blue-200 font-black uppercase text-[10px] tracking-widest">Enter a clinical term</span>
                   )}
                 </div>
               </div>

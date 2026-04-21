@@ -9,15 +9,18 @@ import {
   Crosshair, 
   BookOpen, 
   Presentation, 
-  Search, 
-  Zap, 
+  Search,
+  Zap,
   Scissors,
   Award,
-  Medal
+  Medal,
+  ChevronRight,
+  History
 } from "lucide-react";
 
 interface DashboardProps {
   onSelect: (category: string, mode: "revision" | "mcq" | "study") => void;
+  recentItem?: { id: string, name: string, mode: string } | null;
 }
 
 const CATEGORIES = [
@@ -34,7 +37,7 @@ const CATEGORIES = [
   { id: "basic", name: "Basic Science", icon: Presentation, count: 115, color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20" },
 ];
 
-export default function Dashboard({ onSelect }: DashboardProps) {
+export default function Dashboard({ onSelect, recentItem }: DashboardProps) {
   const [greeting, setGreeting] = useState("Hello");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -69,26 +72,68 @@ export default function Dashboard({ onSelect }: DashboardProps) {
       >
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-2 italic uppercase tracking-tighter transition-colors">
+            <h1 className="text-4xl font-black text-gray-900 mb-2 italic uppercase tracking-tighter transition-colors">
               {greeting}, <span className="text-indigo-600">Dr. Hussein</span>
             </h1>
-            <p className="text-gray-500 dark:text-slate-400 font-bold text-sm uppercase tracking-widest transition-colors">Select clinical specialty to begin evaluation</p>
+            <p className="text-gray-500 font-bold text-sm uppercase tracking-widest transition-colors">Select clinical specialty to begin evaluation</p>
           </div>
-          <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 transition-colors">
-             <div className="px-4 py-2 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl transition-colors">
-                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">Accuracy</span>
-                <span className="text-xl font-black text-gray-900 dark:text-white transition-colors">84%</span>
+          <div className="flex items-center gap-4 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 transition-colors">
+             <div className="px-4 py-2 bg-indigo-50 rounded-xl transition-colors">
+                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest block">Accuracy</span>
+                <span className="text-xl font-black text-gray-900 transition-colors">84%</span>
              </div>
-             <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl transition-colors">
-                <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Credits</span>
-                <span className="text-xl font-black text-gray-900 dark:text-white transition-colors">1,240</span>
+             <div className="px-4 py-2 bg-emerald-50 rounded-xl transition-colors">
+                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block">Credits</span>
+                <span className="text-xl font-black text-gray-900 transition-colors">1,240</span>
              </div>
           </div>
         </div>
 
+        {/* Recent Activity / Quick Access */}
+        <AnimatePresence>
+          {recentItem && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="mb-12"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <History className="w-5 h-5 text-indigo-600" />
+                <h2 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Recently Viewed</h2>
+              </div>
+              <button
+                onClick={() => onSelect(recentItem.id, recentItem.mode as any)}
+                className="w-full text-left bg-gradient-to-r from-indigo-600 to-blue-600 p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-100 hover:scale-[1.01] transition-all group relative overflow-hidden"
+              >
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-100 bg-white/10 px-3 py-1 rounded-full mb-3 inline-block transition-colors group-hover:bg-white/20">
+                      Continue Learning
+                    </span>
+                    <h3 className="text-3xl font-black italic uppercase tracking-tighter mb-1 leading-none">{recentItem.name}</h3>
+                    <p className="text-indigo-100 font-bold text-sm uppercase tracking-widest">{recentItem.mode === 'mcq' ? 'Examination Mode' : recentItem.mode === 'study' ? 'Study Mode' : 'Revision Guide'}</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                     <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center transition-transform group-hover:rotate-12">
+                        <Zap className="w-8 h-8 text-white" />
+                     </div>
+                     <div className="flex flex-col">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-100">Tap to Resume</span>
+                        <ChevronRight className="w-6 h-6 text-white" />
+                     </div>
+                  </div>
+                </div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-32 -translate-y-32 blur-2xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/5 rounded-full -translate-x-24 translate-y-24 blur-xl pointer-events-none" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Search Bar */}
         <div className="relative max-w-2xl mx-auto md:mx-0">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-slate-500">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
             <Search size={20} />
           </div>
           <input 
@@ -96,7 +141,7 @@ export default function Dashboard({ onSelect }: DashboardProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search specialties or topics (e.g. Femur, Hand, Anatomy)..."
-            className="w-full bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold placeholder:text-gray-400 dark:placeholder:text-slate-600 focus:border-indigo-600 focus:outline-none transition-all shadow-sm"
+            className="w-full bg-white border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold placeholder:text-gray-400 text-gray-900 focus:border-indigo-600 focus:outline-none transition-all shadow-sm"
           />
         </div>
       </motion.div>
@@ -111,22 +156,22 @@ export default function Dashboard({ onSelect }: DashboardProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className={`p-8 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-[2rem] shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group relative flex flex-col h-full overflow-hidden`}
+              className={`p-8 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group relative flex flex-col h-full overflow-hidden`}
             >
-              <div className={`p-4 rounded-2xl mb-6 w-fit ${cat.color} border dark:border-slate-700 shadow-inner transition-transform group-hover:scale-110 relative`}>
+              <div className={`p-4 rounded-2xl mb-6 w-fit ${cat.color} border shadow-inner transition-transform group-hover:scale-110 relative`}>
                 <cat.icon className="w-8 h-8" />
                 {(cat as any).featured && (
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white dark:border-slate-900 animate-ping" />
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white animate-ping" />
                 )}
               </div>
               
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight italic uppercase transition-colors">{cat.name}</h3>
+                <h3 className="text-2xl font-black text-gray-900 tracking-tight italic uppercase transition-colors">{cat.name}</h3>
                 {(cat as any).featured && (
                   <span className="px-2 py-0.5 bg-indigo-600 text-[8px] text-white font-black rounded uppercase tracking-tighter">New</span>
                 )}
               </div>
-              <div className="text-[10px] text-gray-400 dark:text-slate-500 font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2 transition-colors">
+              <div className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2 transition-colors">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {cat.count} Validated Questions
               </div>
@@ -135,14 +180,14 @@ export default function Dashboard({ onSelect }: DashboardProps) {
                 <div className="grid grid-cols-2 gap-4">
                   <button 
                     onClick={() => onSelect(cat.id, "revision")}
-                    className="flex items-center justify-center gap-3 py-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    className="flex items-center justify-center gap-3 py-4 bg-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-colors"
                   >
                     <Presentation size={16} />
                     Guides
                   </button>
                   <button 
                     onClick={() => onSelect(cat.id, "mcq")}
-                    className="flex items-center justify-center gap-3 py-4 bg-slate-900 dark:bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 dark:hover:bg-indigo-500 transition-all shadow-xl shadow-slate-200 dark:shadow-none"
+                    className="flex items-center justify-center gap-3 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200"
                   >
                     <BookOpen size={16} />
                     Exam
@@ -165,7 +210,7 @@ export default function Dashboard({ onSelect }: DashboardProps) {
         
         {filteredCategories.length === 0 && (
           <div className="col-span-full py-20 text-center">
-            <p className="text-gray-400 dark:text-slate-600 font-bold uppercase tracking-widest italic text-xl">No specialties found for "{searchQuery}"</p>
+            <p className="text-gray-400 font-bold uppercase tracking-widest italic text-xl">No specialties found for "{searchQuery}"</p>
           </div>
         )}
       </div>

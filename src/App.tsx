@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import QuestionBank from "./components/QuestionBank";
@@ -18,12 +18,48 @@ export default function App() {
   const [page, setPage] = useState("dashboard");
   const [category, setCategory] = useState("trauma");
   const [isStudyMode, setIsStudyMode] = useState(false);
+  const [recentItem, setRecentItem] = useState<{ id: string, name: string, mode: string } | null>(null);
+
+  useEffect(() => {
+    const savedRecent = localStorage.getItem("orthoviva_recent");
+    if (savedRecent) {
+      try {
+        setRecentItem(JSON.parse(savedRecent));
+      } catch (e) {
+        console.error("Failed to parse recent item");
+      }
+    }
+  }, []);
+
+  const handleSelect = (catId: string, mode: "revision" | "mcq" | "study") => {
+    const catNameMap: Record<string, string> = {
+      oite2025: "AAOS OiTE 2025",
+      trauma: "Trauma & Fractures",
+      pediatric: "Pediatric Ortho",
+      sports: "Sports Medicine",
+      shoulder: "Shoulder & Elbow",
+      hand: "Hand & Wrist",
+      foot: "Foot & Ankle",
+      pathology: "Bone Pathology",
+      recon: "Adult Reconstruction",
+      anatomy: "Surgical Anatomy",
+      basic: "Basic Science"
+    };
+
+    const newItem = { id: catId, name: catNameMap[catId] || catId, mode };
+    setRecentItem(newItem);
+    localStorage.setItem("orthoviva_recent", JSON.stringify(newItem));
+
+    setCategory(catId);
+    setIsStudyMode(mode === "study");
+    setPage(mode === "revision" ? "revision" : "mcq");
+  };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
         <Loader2 className="w-10 h-10 text-indigo-600 animate-spin mb-4" />
-        <p className="text-slate-500 font-black uppercase tracking-[0.3em] text-xs">Initializing Secure Environment</p>
+        <p className="text-gray-500 font-black uppercase tracking-[0.3em] text-xs">Initializing Secure Environment</p>
       </div>
     );
   }
@@ -33,30 +69,31 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 selection:bg-indigo-100 dark:selection:bg-indigo-500/30 selection:text-indigo-900 dark:selection:text-indigo-200 transition-colors duration-300">
+    <div className="min-h-screen bg-white selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
       <Navbar setPage={setPage} />
 
       <main>
         {page === "dashboard" && (
           <Dashboard
-            onSelect={(cat, mode) => {
-              setCategory(cat);
-              setIsStudyMode(mode === "study");
-              setPage(mode === "revision" ? "revision" : "mcq");
-            }}
+            onSelect={handleSelect}
+            recentItem={recentItem}
           />
         )}
 
         {(page === "mcq" || page === "study") && (
-          <QuestionBank category={category} studyMode={isStudyMode} />
+          <QuestionBank 
+            category={category} 
+            studyMode={isStudyMode} 
+            onBack={() => setPage("dashboard")}
+          />
         )}
 
         {page === "analytics" && (
-          <Analytics />
+          <Analytics onBack={() => setPage("dashboard")} />
         )}
 
         {page === "profile" && (
-          <Profile />
+          <Profile onBack={() => setPage("dashboard")} />
         )}
 
         {page === "revision" && (

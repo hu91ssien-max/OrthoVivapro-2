@@ -72,13 +72,13 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         {/* Navigation Bar */}
         <div className="flex items-center justify-between mb-6">
           <button 
             onClick={onBack}
-            className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white font-bold transition-colors"
+            className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors"
           >
             <ArrowLeft size={18} />
             Back to Dashboard
@@ -87,7 +87,7 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
           {onPractice && (
             <button 
               onClick={onPractice}
-              className="flex items-center gap-2 px-5 py-2 bg-emerald-600 dark:bg-emerald-500 text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100 dark:shadow-none"
+              className="flex items-center gap-2 px-5 py-2 bg-emerald-600 text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
             >
               <BookOpen size={14} />
               Practice Sports Med
@@ -96,14 +96,14 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
         </div>
 
         {/* Header */}
-        <header className="bg-blue-900 dark:bg-slate-900 text-white rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-2xl relative overflow-hidden transition-colors border border-blue-800 dark:border-slate-800">
+        <header className="bg-blue-900 text-white rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-2xl relative overflow-hidden transition-colors border border-blue-800">
           <div className="relative z-10">
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="bg-blue-800/50 dark:bg-emerald-500/10 px-3 py-1 rounded-full text-[10px] font-black border border-blue-400/30 dark:border-emerald-500/20 text-blue-200 dark:text-emerald-400 uppercase tracking-widest">Knee & Sports</span>
+              <span className="bg-blue-800/50 px-3 py-1 rounded-full text-[10px] font-black border border-blue-400/30 text-blue-200 uppercase tracking-widest">Knee & Sports</span>
               <span className="bg-red-500/80 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">High Yield</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight">ACL Injury <br /> <span className="text-blue-300 dark:text-emerald-400">Clinical Guide</span></h1>
-            <p className="text-blue-200 dark:text-slate-400 mt-4 font-bold text-sm">Anterior Cruciate Ligament • Orthobullets 2026 Summary</p>
+            <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-tight">ACL Injury <br /> <span className="text-blue-300">Clinical Guide</span></h1>
+            <p className="text-blue-200 mt-4 font-bold text-sm">Anterior Cruciate Ligament • Orthobullets 2026 Summary</p>
           </div>
           <Activity className="absolute top-0 right-0 p-12 opacity-10 text-white" size={240} />
         </header>
@@ -117,12 +117,12 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
                 onClick={() => setActiveSection(key as any)}
                 className={`w-full flex items-center justify-between p-5 rounded-2xl transition-all duration-300 border-2 ${
                   activeSection === key 
-                    ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-xl border-blue-600 dark:border-blue-500 translate-x-2' 
-                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-transparent hover:border-blue-200 dark:hover:border-slate-700 shadow-sm'
+                    ? 'bg-blue-600 text-white shadow-xl border-blue-600 translate-x-2' 
+                    : 'bg-white text-slate-600 border-transparent hover:border-blue-200 shadow-sm'
                 }`}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`${activeSection === key ? 'text-white' : 'text-blue-500 dark:text-blue-400'}`}>
+                  <div className={`${activeSection === key ? 'text-white' : 'text-blue-500'}`}>
                     {section.icon}
                   </div>
                   <span className="font-black text-xs uppercase tracking-tight">{section.title}</span>
@@ -136,12 +136,12 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-12 bg-amber-50 dark:bg-amber-500/5 border-2 border-amber-100 dark:border-amber-500/10 rounded-[2.5rem] p-8 shadow-sm transition-colors"
+              className="mt-12 bg-amber-50 border-2 border-amber-100 rounded-[2.5rem] p-8 shadow-sm transition-colors"
             >
-              <h3 className="text-amber-800 dark:text-amber-500 font-black text-xs uppercase flex items-center gap-2 mb-4 italic tracking-widest">
+              <h3 className="text-amber-800 font-black text-xs uppercase flex items-center gap-2 mb-4 italic tracking-widest">
                 <Wind className="w-4 h-4" /> The "Segond" Fact
               </h3>
-              <p className="text-sm text-amber-900/80 dark:text-slate-300 leading-relaxed font-bold">
+              <p className="text-sm text-amber-900/80 leading-relaxed font-bold">
                 A <strong className="text-amber-600 italic">Segond Fracture</strong> on plain film indicates a 75-100% chance of an associated ACL tear.
               </p>
             </motion.div>
@@ -153,10 +153,10 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
               key={activeSection}
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-sm border border-slate-200 dark:border-slate-800 h-full overflow-hidden transition-colors"
+              className="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 h-full overflow-hidden transition-colors"
             >
-              <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 flex items-center gap-4 text-blue-900 dark:text-blue-400 transition-colors">
-                <div className="p-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+              <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center gap-4 text-blue-900 transition-colors">
+                <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100">
                   {sections[activeSection as keyof typeof sections].icon}
                 </div>
                 <h2 className="text-2xl font-black italic tracking-tighter uppercase">{sections[activeSection as keyof typeof sections].title}</h2>
@@ -166,12 +166,12 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
                 {sections[activeSection as keyof typeof sections].content.map((item, idx) => (
                   <div key={idx} className="group transition-all">
                     <div className="flex items-start gap-5">
-                      <div className="mt-1.5 h-3 w-3 rounded-full bg-blue-500 dark:bg-blue-400 shadow-sm shadow-blue-200 dark:shadow-none group-hover:scale-125 transition-transform shrink-0" />
+                      <div className="mt-1.5 h-3 w-3 rounded-full bg-blue-500 shadow-sm shadow-blue-200 group-hover:scale-125 transition-transform shrink-0" />
                       <div>
-                        <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-2 transition-colors">
+                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 transition-colors">
                           {item.label}
                         </h4>
-                        <p className="text-slate-700 dark:text-slate-200 font-bold leading-relaxed transition-colors">
+                        <p className="text-slate-700 font-bold leading-relaxed transition-colors">
                           {item.text}
                         </p>
                       </div>
@@ -184,35 +184,35 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="mt-10 p-8 bg-blue-50 dark:bg-blue-500/5 rounded-[2rem] border-2 border-blue-100 dark:border-blue-500/10 transition-colors"
+                    className="mt-10 p-8 bg-blue-50 rounded-[2rem] border-2 border-blue-100 transition-colors"
                   >
-                    <h5 className="text-blue-800 dark:text-blue-400 font-black text-[10px] uppercase tracking-widest mb-6">Diagnostic Accuracy Indicators</h5>
+                    <h5 className="text-blue-800 font-black text-[10px] uppercase tracking-widest mb-6">Diagnostic Accuracy Indicators</h5>
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] text-blue-700 dark:text-blue-300 font-black uppercase tracking-widest">
+                        <div className="flex justify-between text-[10px] text-blue-700 font-black uppercase tracking-widest">
                           <span>LACHMAN SENSITIVITY</span>
                           <span>~95%</span>
                         </div>
-                        <div className="w-full bg-blue-200/50 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
+                        <div className="w-full bg-blue-200/50 rounded-full h-3 overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: '95%' }}
                             transition={{ duration: 1, ease: "easeOut" }}
-                            className="bg-blue-600 dark:bg-blue-500 h-full rounded-full" 
+                            className="bg-blue-600 h-full rounded-full" 
                           />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] text-blue-700 dark:text-blue-300 font-black uppercase tracking-widest">
+                        <div className="flex justify-between text-[10px] text-blue-700 font-black uppercase tracking-widest">
                           <span>PIVOT SHIFT SPECIFICITY</span>
                           <span>~98%</span>
                         </div>
-                        <div className="w-full bg-blue-200/50 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
+                        <div className="w-full bg-blue-200/50 rounded-full h-3 overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: '98%' }}
                             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-                            className="bg-blue-600 dark:bg-blue-500 h-full rounded-full" 
+                            className="bg-blue-600 h-full rounded-full" 
                           />
                         </div>
                       </div>
@@ -226,7 +226,7 @@ const ACLInfographic = ({ onBack, onPractice }: ACLInfographicProps) => {
 
         {/* Footer info */}
         <footer className="mt-20 text-center">
-          <div className="inline-block px-8 py-3 bg-slate-100 dark:bg-slate-900 rounded-full text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-widest transition-colors">
+          <div className="inline-block px-8 py-3 bg-slate-100 rounded-full text-slate-400 text-[10px] font-black uppercase tracking-widest transition-colors">
             © 2026 Orthobullets Comprehensive Review • Reference: Zaky Ortho Files
           </div>
         </footer>

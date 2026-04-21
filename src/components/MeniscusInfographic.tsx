@@ -83,21 +83,21 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
   const current = content[activeSection as keyof typeof content];
 
   const themeClasses: Record<string, string> = {
-    emerald: "bg-emerald-600 dark:bg-emerald-500 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-button:bg-emerald-600",
-    amber: "bg-amber-600 dark:bg-amber-500 border-amber-100 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 font-button:bg-amber-600",
-    blue: "bg-blue-600 dark:bg-blue-500 border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 font-button:bg-blue-600",
-    purple: "bg-purple-600 dark:bg-purple-500 border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 font-button:bg-purple-600",
-    rose: "bg-rose-600 dark:bg-rose-500 border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 font-button:bg-rose-600"
+    emerald: "bg-emerald-600 border-emerald-100 text-emerald-600 font-button:bg-emerald-600",
+    amber: "bg-amber-600 border-amber-100 text-amber-600 font-button:bg-amber-600",
+    blue: "bg-blue-600 border-blue-100 text-blue-600 font-button:bg-blue-600",
+    purple: "bg-purple-600 border-purple-100 text-purple-600 font-button:bg-purple-600",
+    rose: "bg-rose-600 border-rose-100 text-rose-600 font-button:bg-rose-600"
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-slate-950 p-6 font-sans antialiased text-slate-800 dark:text-slate-200 transition-colors duration-300">
+    <div className="min-h-screen bg-neutral-50 p-6 font-sans antialiased text-slate-800 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         {/* Navigation Bar */}
         <div className="flex items-center justify-between mb-8">
           <button 
             onClick={onBack}
-            className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white font-bold transition-colors"
+            className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors"
           >
             <ArrowLeft size={18} />
             Back to Portal
@@ -106,7 +106,7 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
           {onPractice && (
             <button 
               onClick={onPractice}
-              className="flex items-center gap-2 px-5 py-2 bg-emerald-600 dark:bg-emerald-500 text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100 dark:shadow-none"
+              className="flex items-center gap-2 px-5 py-2 bg-emerald-600 text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
             >
               <BookOpen size={14} />
               Practice Sports Med
@@ -115,7 +115,7 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
         </div>
 
         {/* Header */}
-        <div className="bg-slate-900 dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 mb-8 text-white shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8 border-b-8 border-emerald-500 transition-colors">
+        <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 mb-8 text-white shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8 border-b-8 border-emerald-500 transition-colors">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="bg-emerald-500 text-slate-900 text-[10px] font-black px-3 py-1 rounded-full tracking-tighter uppercase">Topic 04</span>
@@ -152,17 +152,17 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
                   onClick={() => setActiveSection(key)}
                   className={`w-full group flex items-center justify-between p-5 rounded-2xl border-2 transition-all duration-300 ${
                     isActive 
-                      ? `bg-white dark:bg-slate-900 border-emerald-500 dark:border-emerald-500 shadow-xl translate-x-2` 
-                      : 'bg-white dark:bg-slate-900 border-transparent dark:border-slate-800/50 text-slate-500 hover:border-slate-200 dark:hover:border-slate-700'
+                      ? `bg-white border-emerald-500 shadow-xl translate-x-2` 
+                      : 'bg-white border-transparent text-slate-500 hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-xl transition-colors ${
-                      isActive ? `${bgClass} text-white` : 'bg-slate-100 dark:bg-slate-800'
+                      isActive ? `${bgClass} text-white` : 'bg-slate-100'
                     }`}>
                       {section.icon}
                     </div>
-                    <span className={`font-black text-xs uppercase tracking-tight ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
+                    <span className={`font-black text-xs uppercase tracking-tight ${isActive ? 'text-slate-900' : 'text-slate-400'}`}>
                       {section.title}
                     </span>
                   </div>
@@ -175,7 +175,7 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-8 bg-blue-900 dark:bg-blue-600 p-8 rounded-[2.5rem] shadow-lg relative overflow-hidden"
+              className="mt-8 bg-blue-900 p-8 rounded-[2.5rem] shadow-lg relative overflow-hidden"
             >
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-4">
@@ -198,10 +198,10 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
               key={activeSection}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden min-h-[550px] flex flex-col transition-colors"
+              className="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden min-h-[550px] flex flex-col transition-colors"
             >
-              <div className={`p-10 flex items-center gap-6 border-b border-slate-100 dark:border-slate-800 ${themeClasses[current.theme].split(' ')[0]}`}>
-                <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+              <div className={`p-10 flex items-center gap-6 border-b border-slate-100 ${themeClasses[current.theme].split(' ')[0]}`}>
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
                    {React.cloneElement(current.icon as React.ReactElement, { 
                      className: `w-8 h-8 ${themeClasses[current.theme].split(' ')[2]}` 
                    })}
@@ -222,13 +222,13 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
                       <div key={idx} className="flex gap-6 group">
                         <div className="flex flex-col items-center">
                           <div className={`w-3.5 h-3.5 rounded-full border-2 mt-1.5 transition-all group-hover:scale-125 ${bulletColor}`} />
-                          <div className="w-[2px] flex-grow bg-slate-100 dark:bg-slate-800 mt-3 mb-1 group-last:hidden" />
+                          <div className="w-[2px] flex-grow bg-slate-100 mt-3 mb-1 group-last:hidden" />
                         </div>
                         <div className="pb-4">
-                          <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-2 transition-colors">
+                          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 transition-colors">
                             {item.label}
                           </h4>
-                          <p className="text-slate-800 dark:text-slate-200 text-lg leading-relaxed font-bold transition-colors">
+                          <p className="text-slate-800 text-lg leading-relaxed font-bold transition-colors">
                             {item.text}
                           </p>
                         </div>
@@ -243,12 +243,12 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-8 bg-rose-50 dark:bg-rose-500/5 border-t border-rose-100 dark:border-rose-500/20 flex items-center gap-6 transition-colors"
+                  className="p-8 bg-rose-50 border-t border-rose-100 flex items-center gap-6 transition-colors"
                 >
-                  <div className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm">
-                    <AlertTriangle className="w-8 h-8 text-rose-600 dark:text-rose-400 shrink-0" />
+                  <div className="p-3 bg-white rounded-xl shadow-sm">
+                    <AlertTriangle className="w-8 h-8 text-rose-600 shrink-0" />
                   </div>
-                  <p className="text-sm text-rose-900 dark:text-slate-300 font-black uppercase tracking-tight leading-relaxed">
+                  <p className="text-sm text-rose-900 font-black uppercase tracking-tight leading-relaxed">
                     Preserve the meniscus whenever possible to prevent <span className="text-rose-600 italic">early-onset osteoarthritis</span>.
                   </p>
                 </motion.div>
@@ -257,8 +257,8 @@ const MeniscusInfographic = ({ onBack, onPractice }: MeniscusInfographicProps) =
           </div>
         </div>
 
-        <footer className="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 text-center">
-          <div className="inline-block px-10 py-3 bg-slate-100 dark:bg-slate-900 rounded-full text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.5em] transition-colors">
+        <footer className="mt-20 pt-10 border-t border-slate-200 text-center">
+          <div className="inline-block px-10 py-3 bg-slate-100 rounded-full text-slate-400 text-[10px] font-black uppercase tracking-[0.5em] transition-colors">
             Orthobullets Review • 2026 High Yield Series • Sports Medicine
           </div>
         </footer>
