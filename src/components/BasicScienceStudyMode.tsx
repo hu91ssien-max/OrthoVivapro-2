@@ -198,23 +198,25 @@ const BasicScienceStudyMode = () => {
             <span className="text-lg font-black tracking-tighter uppercase italic">OM-Master</span>
           </div>
           
-          <nav className="flex-1 space-y-4 overflow-y-auto no-scrollbar pb-10">
+          <nav className="flex-1 space-y-6 overflow-y-auto no-scrollbar pb-12 pr-2">
             {Object.entries(groupedSections).map(([group, items]) => (
-              <div key={group} className="space-y-1">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest px-4 mb-2">{group}</p>
-                {items.map((section) => (
-                  <button
-                    key={section.id}
-                    onClick={() => setActiveTab(section.id)}
-                    className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-[10px] font-bold transition-all ${activeTab === section.id ? 'bg-emerald-600 text-white shadow-xl translate-x-2' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <section.icon size={16} />
-                      {section.label}
-                    </div>
-                    <ChevronRight size={14} className={activeTab === section.id ? 'opacity-100' : 'opacity-0'} />
-                  </button>
-                ))}
+              <div key={group} className="space-y-1.5">
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] px-4 mb-3 opacity-60">{group}</p>
+                <div className="space-y-1">
+                  {items.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveTab(section.id)}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-[10px] font-bold transition-all ${activeTab === section.id ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-900/40 translate-x-1' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <section.icon size={15} className={activeTab === section.id ? 'text-white' : 'text-slate-500'} />
+                        {section.label}
+                      </div>
+                      <ChevronRight size={12} className={activeTab === section.id ? 'opacity-100' : 'opacity-0'} />
+                    </button>
+                  ))}
+                </div>
               </div>
             ))}
           </nav>
