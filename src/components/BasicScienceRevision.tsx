@@ -20,7 +20,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import OsteoarthritisAtlas from './OsteoarthritisAtlas';
-import OsteomyelitisHub from './OsteomyelitisHub';
+import BasicScienceStudyMode from './BasicScienceStudyMode';
 
 interface BasicScienceRevisionProps {
   onBack: () => void;
@@ -153,13 +153,7 @@ const BasicScienceRevision = ({ onBack, view = 'revision' }: BasicScienceRevisio
 
       <AnimatePresence mode="wait">
         {view === 'study' ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="w-full"
-          >
-            <OsteomyelitisHub onBack={onBack} />
-          </motion.div>
+          <BasicScienceStudyMode />
         ) : activeMainTab === 'oa' ? (
           <motion.div
             key="oa-module"
