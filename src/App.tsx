@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react";
+import Sidebar, { CATEGORIES } from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import QuestionBank from "./components/QuestionBank";
 import PediatricOrthoRevision from "./components/PediatricOrthoRevision";
+import PediatricExaminationMode from "./components/PediatricExaminationMode";
 import SportsMedicineRevision from "./components/SportsMedicineRevision";
-import PathologyViva from "./components/PathologyViva";
+import SportsExaminationMode from "./components/SportsExaminationMode";
 import THAFixationInfographic from "./components/THAFixationInfographic";
+import BasicScienceRevision from "./components/BasicScienceRevision";
+import TraumaRevision from "./components/TraumaRevision";
+import TraumaStudyHub from "./components/TraumaStudyHub";
+import OncologyMaster from "./components/OncologyMaster";
+import SynoNeuroLab from "./components/SynoNeuroLab";
+import OncologyLab from "./components/OncologyLab";
+import MetaLab from "./components/MetaLab";
+import ScleroticLab from "./components/ScleroticLab";
+import OncologyOSCE from "./components/OncologyOSCE";
 import Analytics from "./components/Analytics";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
@@ -19,6 +30,8 @@ export default function App() {
   const [category, setCategory] = useState("trauma");
   const [isStudyMode, setIsStudyMode] = useState(false);
   const [recentItem, setRecentItem] = useState<{ id: string, name: string, mode: string } | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [pathologyStudyView, setPathologyStudyView] = useState<"standard" | "synoneuro" | "metalab" | "sclerotic">("standard");
 
   useEffect(() => {
     const savedRecent = localStorage.getItem("orthoviva_recent");
@@ -32,27 +45,21 @@ export default function App() {
   }, []);
 
   const handleSelect = (catId: string, mode: "revision" | "mcq" | "study") => {
-    const catNameMap: Record<string, string> = {
-      oite2025: "AAOS OiTE 2025",
-      trauma: "Trauma & Fractures",
-      pediatric: "Pediatric Ortho",
-      sports: "Sports Medicine",
-      shoulder: "Shoulder & Elbow",
-      hand: "Hand & Wrist",
-      foot: "Foot & Ankle",
-      pathology: "Bone Pathology",
-      recon: "Adult Reconstruction",
-      anatomy: "Surgical Anatomy",
-      basic: "Basic Science"
-    };
+    const cat = CATEGORIES.find(c => c.id === catId);
+    const catName = cat ? cat.name : catId;
 
-    const newItem = { id: catId, name: catNameMap[catId] || catId, mode };
+    const newItem = { id: catId, name: catName, mode };
     setRecentItem(newItem);
     localStorage.setItem("orthoviva_recent", JSON.stringify(newItem));
 
     setCategory(catId);
     setIsStudyMode(mode === "study");
     setPage(mode === "revision" ? "revision" : "mcq");
+  };
+
+  const handleSidebarSelect = (catId: string) => {
+    setCategory(catId);
+    setPage("dashboard"); // Go back to specialty home when selecting from sidebar
   };
 
   if (isLoading) {
@@ -68,72 +75,152 @@ export default function App() {
     return <Login />;
   }
 
+  // Define full-screen pages
+  const isFullScreenPage = page === "mcq" || page === "study" || page === "revision";
+
   return (
-    <div className="min-h-screen bg-white selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
-      <Navbar setPage={setPage} />
+    <div className="min-h-screen bg-slate-50 selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
+      {!isFullScreenPage && (
+        <Sidebar 
+          activeCategory={category} 
+          onSelectCategory={handleSidebarSelect}
+          isOpen={isSidebarOpen}
+          setIsOpen={setIsSidebarOpen}
+        />
+      )}
 
-      <main>
-        {page === "dashboard" && (
-          <Dashboard
-            onSelect={handleSelect}
-            recentItem={recentItem}
+      <div className={`${isFullScreenPage ? "" : "lg:ml-72"} transition-all duration-300`}>
+        {!isFullScreenPage && (
+          <Navbar 
+            setPage={setPage} 
+            onMenuClick={() => setIsSidebarOpen(true)}
           />
         )}
 
-        {(page === "mcq" || page === "study") && (
-          <QuestionBank 
-            category={category} 
-            studyMode={isStudyMode} 
-            onBack={() => setPage("dashboard")}
-          />
-        )}
+        <main className={`${isFullScreenPage ? "" : "min-h-[calc(100vh-4rem)]"}`}>
+          {page === "dashboard" && (
+            <Dashboard
+              onSelect={handleSelect}
+              recentItem={recentItem}
+              activeCategory={category}
+            />
+          )}
 
-        {page === "analytics" && (
-          <Analytics onBack={() => setPage("dashboard")} />
-        )}
-
-        {page === "profile" && (
-          <Profile onBack={() => setPage("dashboard")} />
-        )}
-
-        {page === "revision" && (
-          <>
-            {category === "pediatric" ? (
-              <PediatricOrthoRevision 
-                onBack={() => setPage("dashboard")} 
-                onPractice={() => setPage("mcq")} 
-              />
-            ) : category === "pathology" ? (
-              <PathologyViva 
-                onBack={() => setPage("dashboard")} 
+          {(page === "mcq" || page === "study") && (
+            category === "pediatric" ? (
+              <PediatricExaminationMode 
+                onBack={() => setPage("dashboard")}
               />
             ) : category === "sports" ? (
-              <SportsMedicineRevision 
+              <SportsExaminationMode 
                 onBack={() => setPage("dashboard")}
-                onPractice={() => {
-                  setIsStudyMode(true);
-                  setPage("mcq");
-                }}
               />
-            ) : category === "recon" ? (
-              <THAFixationInfographic 
+            ) : category === "basic" ? (
+              <BasicScienceRevision 
+                onBack={() => setPage("dashboard")}
+                view={isStudyMode ? "study" : "mcq"}
+              />
+            ) : category === "pathology" ? (
+              isStudyMode ? (
+                pathologyStudyView === "standard" ? (
+                  <OncologyMaster 
+                    onBack={() => setPage("dashboard")}
+                    onSwitchToSynoNeuro={() => setPathologyStudyView("synoneuro")}
+                    onSwitchToMetaLab={() => setPathologyStudyView("metalab")}
+                    onSwitchToSclerotic={() => setPathologyStudyView("sclerotic")}
+                    onSwitchToOSCE={() => setPage("mcq")}
+                  />
+                ) : pathologyStudyView === "synoneuro" ? (
+                  <SynoNeuroLab 
+                    onBack={() => setPathologyStudyView("standard")}
+                  />
+                ) : pathologyStudyView === "metalab" ? (
+                  <MetaLab 
+                    onBack={() => setPathologyStudyView("standard")}
+                  />
+                ) : (
+                  <ScleroticLab 
+                    onBack={() => setPathologyStudyView("standard")}
+                  />
+                )
+              ) : (
+                <OncologyOSCE 
+                  onBack={() => setPage("dashboard")}
+                />
+              )
+            ) : category === "trauma" && isStudyMode ? (
+              <TraumaStudyHub 
                 onBack={() => setPage("dashboard")}
               />
             ) : (
-              <div className="max-w-4xl mx-auto py-20 text-center">
-                <h2 className="text-2xl font-bold mb-4">Revision Guide Coming Soon</h2>
-                <p className="text-gray-500 mb-8">We are currently drafting the high-yield summaries for {category}.</p>
-                <button 
-                  onClick={() => setPage("dashboard")}
-                  className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold"
-                >
-                  Back to Dashboard
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </main>
+              <QuestionBank 
+                category={category} 
+                studyMode={isStudyMode} 
+                onBack={() => setPage("dashboard")}
+              />
+            )
+          )}
+
+          {page === "analytics" && (
+            <Analytics onBack={() => setPage("dashboard")} />
+          )}
+
+          {page === "profile" && (
+            <Profile onBack={() => setPage("dashboard")} />
+          )}
+
+          {page === "revision" && (
+            <>
+              {category === "pediatric" ? (
+                <PediatricOrthoRevision 
+                  onBack={() => setPage("dashboard")} 
+                  onPractice={() => setPage("mcq")} 
+                />
+              ) : category === "pathology" ? (
+                <OncologyLab 
+                  onBack={() => setPage("dashboard")} 
+                />
+              ) : category === "sports" ? (
+                <SportsMedicineRevision 
+                  onBack={() => setPage("dashboard")}
+                  onPractice={() => {
+                    setIsStudyMode(true);
+                    setPage("mcq");
+                  }}
+                />
+              ) : category === "recon" ? (
+                <THAFixationInfographic 
+                  onBack={() => setPage("dashboard")}
+                />
+              ) : category === "basic" ? (
+                <BasicScienceRevision 
+                  onBack={() => setPage("dashboard")}
+                  view="revision"
+                />
+              ) : category === "trauma" ? (
+                <TraumaRevision 
+                  onBack={() => setPage("dashboard")}
+                  onPractice={() => {
+                    setIsStudyMode(true);
+                    setPage("mcq");
+                  }}
+                />
+              ) : (
+                <div className="max-w-4xl mx-auto py-20 text-center">
+                  <h2 className="text-2xl font-bold mb-4">Revision Guide Coming Soon</h2>
+                  <p className="text-gray-500 mb-8">We are currently drafting the high-yield summaries for {category}.</p>
+                  <button 
+                    onClick={() => setPage("dashboard")}
+                    className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold"
+                  >
+                    Back to Dashboard
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </main>
+      </div>
       <VercelAnalytics />
     </div>
   );

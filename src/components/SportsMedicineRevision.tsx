@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "motion/react";
 import ACLInfographic from "./ACLInfographic";
 import PCLInfographic from "./PCLInfographic";
 import MeniscusInfographic from "./MeniscusInfographic";
+import KneeClinicalExpert from "./KneeClinicalExpert";
 
 interface SportsMedicineRevisionProps {
   onBack: () => void;
@@ -19,7 +20,7 @@ interface SportsMedicineRevisionProps {
 }
 
 const SportsMedicineRevision = ({ onBack, onPractice }: SportsMedicineRevisionProps) => {
-  const [activeTopic, setActiveTopic] = useState<"menu" | "acl" | "pcl" | "meniscus">("menu");
+  const [activeTopic, setActiveTopic] = useState<"menu" | "acl" | "pcl" | "meniscus" | "knee_exam">("menu");
 
   if (activeTopic === "acl") {
     return <ACLInfographic onBack={() => setActiveTopic("menu")} onPractice={onPractice} />;
@@ -31,6 +32,10 @@ const SportsMedicineRevision = ({ onBack, onPractice }: SportsMedicineRevisionPr
 
   if (activeTopic === "meniscus") {
     return <MeniscusInfographic onBack={() => setActiveTopic("menu")} onPractice={onPractice} />;
+  }
+
+  if (activeTopic === "knee_exam") {
+    return <KneeClinicalExpert onBack={() => setActiveTopic("menu")} />;
   }
 
   return (
@@ -113,6 +118,25 @@ const SportsMedicineRevision = ({ onBack, onPractice }: SportsMedicineRevisionPr
               <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors max-w-[240px]">Vascularity Zones, McMurray Tests, and Surgical Pathways</p>
               <div className="mt-10 flex items-center gap-2 text-emerald-600 text-[10px] font-black uppercase tracking-widest">
                 Access Clinical Guide <ChevronRight size={14} />
+              </div>
+            </button>
+
+            <button 
+              onClick={() => setActiveTopic("knee_exam")}
+              className="group flex flex-col p-10 bg-indigo-900 border border-slate-800 rounded-[3rem] text-left hover:shadow-2xl hover:border-indigo-400 transition-all md:col-span-2"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <div className="w-16 h-16 bg-indigo-500/20 text-indigo-400 rounded-3xl flex items-center justify-center border border-indigo-500/30">
+                  <Activity size={36} />
+                </div>
+                <div className="px-4 py-1.5 bg-indigo-500/20 border border-indigo-500/30 rounded-full">
+                  <span className="text-[10px] font-black text-indigo-300 uppercase tracking-widest italic">Full Examination Mode</span>
+                </div>
+              </div>
+              <h3 className="text-4xl font-black text-white uppercase italic tracking-tighter mb-3">Knee Clinical Expert</h3>
+              <p className="text-indigo-200/60 text-sm font-medium italic max-w-xl">Advanced clinical reference for ligamentous stability, biomechanics, and patellofemoral pathology based on orthopedic high-yield guidelines.</p>
+              <div className="mt-10 flex items-center gap-2 text-indigo-400 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
+                Initialize Examination Module <ChevronRight size={14} />
               </div>
             </button>
           </div>
