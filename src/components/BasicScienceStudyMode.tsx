@@ -60,7 +60,9 @@ import {
   Fan,
   Clock,
   CheckSquare,
-  Compass
+  Compass,
+  ArrowLeft,
+  Home
 } from 'lucide-react';
 
 const FORENSIC_DATA = {
@@ -114,6 +116,7 @@ const FORENSIC_DATA = {
 const OM_DATA = {
   pathophysiology: {
     title: "The Pathological Cycle",
+    niche: "Structural Biology",
     steps: [
       { name: "Infection", desc: "Bacteria colonize the Haversian canals." },
       { name: "Ischemia", desc: "Inflammation leads to increased intraosseous pressure, compressing local vessels." },
@@ -1258,8 +1261,36 @@ const SECTIONS = [
 ];
 
 const BasicScienceStudyMode = () => {
-  const [activeTab, setActiveTab] = useState('patho');
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(['OM BASICS', 'COMPLEX HUB', 'ADVANCED INFECTION HUB', 'EMERGENCY HUB', 'DIABETIC HUB', 'BIO-PHARMA HUB', 'DIFFERENTIAL HUB', 'ATYPICAL & GLOBAL HUB', 'DIAGNOSTIC FORENSICS', 'SOFT TISSUE HUB', 'STEALTH HUB', 'TB HUB', 'TRAUMA HUB', 'BIO-FRONTIER', 'ATYPICAL HUB', 'NICHE HUB', 'BIOMECH HUB', 'VASCULAR & PHYSEAL HUB', 'MYO-SEPSIS HUB', 'SEQUELAE HUB', 'CIERNY HUB', 'PEDIATRIC HUB', 'PELVIC HUB', 'DIAGNOSTIC INTERVENTIONAL', 'PREVENTION HUB']);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['OM BASICS']);
+
+  const HUB_METADATA: Record<string, { icon: any, color: string, colorClass: string, bgClass: string, textClass: string, desc: string }> = {
+    'OM BASICS': { icon: Layers, color: 'emerald', colorClass: 'bg-emerald-500', bgClass: 'bg-emerald-50', textClass: 'text-emerald-700', desc: 'Core pathophysiology, staging, and surgical logic.' },
+    'COMPLEX HUB': { icon: Thermometer, color: 'red', colorClass: 'bg-red-500', bgClass: 'bg-red-50', textClass: 'text-red-700', desc: 'Critical pediatric, joint, and spinal infections.' },
+    'ADVANCED INFECTION HUB': { icon: Microscope, color: 'purple', colorClass: 'bg-purple-500', bgClass: 'bg-purple-50', textClass: 'text-purple-700', desc: 'Biofilms, reconstructive techniques, and imaging.' },
+    'EMERGENCY HUB': { icon: AlertTriangle, color: 'orange', colorClass: 'bg-orange-500', bgClass: 'bg-orange-50', textClass: 'text-orange-700', desc: 'Hand, foot, and soft tissue surgical emergencies.' },
+    'DIABETIC HUB': { icon: Footprints, color: 'rose', colorClass: 'bg-rose-500', bgClass: 'bg-rose-50', textClass: 'text-rose-700', desc: 'Charcot neuroarthropathy and diabetic osteomyelitis.' },
+    'DIFFERENTIAL HUB': { icon: Scale, color: 'emerald', colorClass: 'bg-emerald-500', bgClass: 'bg-emerald-50', textClass: 'text-emerald-700', desc: 'Distinguishing infection from gout, non-union, and CRPS.' },
+    'ATYPICAL & GLOBAL HUB': { icon: Globe, color: 'blue', colorClass: 'bg-blue-500', bgClass: 'bg-blue-50', textClass: 'text-blue-700', desc: 'CRMO, Leprosy, and fungal infections.' },
+    'BIO-PHARMA HUB': { icon: Pill, color: 'amber', colorClass: 'bg-amber-500', bgClass: 'bg-amber-50', textClass: 'text-amber-700', desc: 'Antibiotic resistance, penetration, and toxicities.' },
+    'DIAGNOSTIC FORENSICS': { icon: FlaskConical, color: 'indigo', colorClass: 'bg-indigo-500', bgClass: 'bg-indigo-50', textClass: 'text-indigo-700', desc: 'Biomarkers, MSIS criteria, and molecular DX.' },
+    'SOFT TISSUE HUB': { icon: Hand, color: 'orange', colorClass: 'bg-orange-500', bgClass: 'bg-orange-50', textClass: 'text-orange-700', desc: 'Deep spaces, bites, and gas gangrene.' },
+    'STEALTH HUB': { icon: Wind, color: 'teal', colorClass: 'bg-teal-500', bgClass: 'bg-teal-50', textClass: 'text-teal-700', desc: 'Indolent and atypical spinal and joint infections.' },
+    'TB HUB': { icon: Globe, color: 'amber', colorClass: 'bg-amber-500', bgClass: 'bg-amber-50', textClass: 'text-amber-700', desc: 'Comprehensive spinal and joint tuberculosis.' },
+    'TRAUMA HUB': { icon: Construction, color: 'orange', colorClass: 'bg-orange-500', bgClass: 'bg-orange-50', textClass: 'text-orange-700', desc: 'Gustilo staging and post-traumatic debridement.' },
+    'BIO-FRONTIER': { icon: Settings, color: 'emerald', colorClass: 'bg-emerald-500', bgClass: 'bg-emerald-50', textClass: 'text-emerald-700', desc: 'Host optimization and emerging pathogens.' },
+    'ATYPICAL HUB': { icon: Bug, color: 'blue', colorClass: 'bg-blue-500', bgClass: 'bg-blue-50', textClass: 'text-blue-700', desc: 'Rare parasitic and fungal bone infections.' },
+    'NICHE HUB': { icon: Target, color: 'indigo', colorClass: 'bg-indigo-500', bgClass: 'bg-indigo-50', textClass: 'text-indigo-700', desc: 'Lyme, viral, and reactive inflammatory variants.' },
+    'BIOMECH HUB': { icon: Settings, color: 'blue', colorClass: 'bg-blue-500', bgClass: 'bg-blue-50', textClass: 'text-blue-700', desc: 'Stability logic and implant biosafety.' },
+    'VASCULAR & PHYSEAL HUB': { icon: Waypoints, color: 'indigo', colorClass: 'bg-indigo-500', bgClass: 'bg-indigo-50', textClass: 'text-indigo-700', desc: 'Vascular anatomy and growth plate kinetics.' },
+    'MYO-SEPSIS HUB': { icon: Flame, color: 'orange', colorClass: 'bg-orange-500', bgClass: 'bg-orange-50', textClass: 'text-orange-700', desc: 'Muscle sepsis and psoas abscess protocols.' },
+    'SEQUELAE HUB': { icon: Skull, color: 'red', colorClass: 'bg-red-500', bgClass: 'bg-red-50', textClass: 'text-red-700', desc: 'Malignancy, amyloidosis, and salvage logic.' },
+    'CIERNY HUB': { icon: Scale, color: 'emerald', colorClass: 'bg-emerald-500', bgClass: 'bg-emerald-50', textClass: 'text-emerald-700', desc: 'Physiological and anatomical host staging.' },
+    'PEDIATRIC HUB': { icon: Baby, color: 'pink', colorClass: 'bg-pink-500', bgClass: 'bg-pink-50', textClass: 'text-pink-700', desc: 'Neonatal sepsis and sickle cell variants.' },
+    'PELVIC HUB': { icon: Map, color: 'indigo', colorClass: 'bg-indigo-500', bgClass: 'bg-indigo-50', textClass: 'text-indigo-700', desc: 'Sacroiliitis and pelvic inflammatory mimics.' },
+    'DIAGNOSTIC INTERVENTIONAL': { icon: Syringe, color: 'indigo', colorClass: 'bg-indigo-500', bgClass: 'bg-indigo-50', textClass: 'text-indigo-700', desc: 'Joint aspiration, biopsy, and safe zones.' },
+    'PREVENTION HUB': { icon: ShieldCheck, color: 'blue', colorClass: 'bg-blue-500', bgClass: 'bg-blue-50', textClass: 'text-blue-700', desc: 'OR environment and prophylaxis protocols.' }
+  };
 
   const toggleGroup = (group: string) => {
     setExpandedGroups(prev => 
@@ -1298,6 +1329,7 @@ const BasicScienceStudyMode = () => {
   const isInterventional = ['safeZones', 'dryTap', 'media', 'biopsy'].includes(activeTab);
   const isPrevention = ['orEnvironment', 'skinPrep', 'prophylaxis', 'irrigation'].includes(activeTab);
 
+  const isOM = ['patho', 'staging', 'micro', 'tx'].includes(activeTab);
   const activeSection = SECTIONS.find(s => s.id === activeTab);
 
   return (
@@ -1318,13 +1350,21 @@ const BasicScienceStudyMode = () => {
 
       {/* Sidebar (Desktop) */}
       <aside className="w-72 bg-slate-950 text-white hidden lg:flex flex-col h-full sticky top-0 shadow-2xl shrink-0">
-        <div className="p-8 pb-2">
+        <div className="p-8 pb-4">
           <div className="flex items-center gap-3 mb-8">
             <div className="p-2 bg-emerald-600 rounded-xl shadow-lg shadow-emerald-900/40">
               <Microscope size={20} />
             </div>
-            <span className="text-lg font-black tracking-tighter uppercase italic">OM-Master</span>
+            <span className="text-lg font-black tracking-tighter uppercase italic">OM-HUB</span>
           </div>
+
+          <button 
+            onClick={() => setActiveTab('dashboard')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all mb-4 ${activeTab === 'dashboard' ? 'bg-white/10 text-emerald-400 border border-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <Database size={16} />
+            Dashboard Home
+          </button>
         </div>
           
         <nav className="flex-1 space-y-4 overflow-y-auto no-scrollbar px-8 pb-8">
@@ -1383,26 +1423,80 @@ const BasicScienceStudyMode = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-full overflow-y-auto no-scrollbar bg-slate-50">
-        <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-40">
-          <div>
-            <h2 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">Surgical Biology</h2>
-            <h1 className="text-lg font-black text-slate-800 uppercase tracking-tighter">
-              {isVascular ? (VASCULAR_DATA as any)[activeTab].title : isBursaMuscle ? (BURSA_MUSCLE_DATA as any)[activeTab].title : isSequelae ? (SEQUELAE_DATA as any)[activeTab].title : isPediatric ? (PEDIATRIC_DATA as any)[activeTab].title : isCierny ? (CIERNY_DATA as any)[activeTab].title : isPelvic ? (PELVIC_DATA as any)[activeTab].title : isInterventional ? (DIAGNOSTIC_INTERVENTIONAL_DATA as any)[activeTab].title : isPrevention ? (PREVENTION_DATA as any)[activeTab].title : isDiabetic ? (DIABETIC_DATA as any)[activeTab].title : isPharma ? (PHARMA_DATA as any)[activeTab].title : isBiomech ? (BIOMECH_DATA as any)[activeTab].title : isTrauma ? (TRAUMA_INFECTION_DATA as any)[activeTab].title : isTB ? (TB_DATA as any)[activeTab].title : isSoftTissue ? (SOFT_TISSUE_DATA as any)[activeTab].title : "Infection Hub Master"}
-            </h1>
+      <main className="flex-1 flex flex-col h-full overflow-y-auto no-scrollbar bg-slate-50 relative">
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-50">
+          <div className="flex items-center">
+            {activeTab !== 'dashboard' && (
+              <button 
+                onClick={() => setActiveTab('dashboard')}
+                className="mr-6 p-2.5 bg-slate-100 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-2xl transition-all border border-slate-200 hover:border-emerald-100 group"
+              >
+                <Home size={18} className="group-hover:scale-110 transition-transform" />
+              </button>
+            )}
+            <div>
+              <div className="flex items-center gap-2 mb-0.5">
+                 <h2 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">{activeTab === 'dashboard' ? 'Infection Systems' : 'Apley Revision Hub'}</h2>
+                 <div className="w-1 h-1 rounded-full bg-slate-300" />
+                 <h2 className="text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">{activeTab === 'dashboard' ? 'Overview' : activeSection?.group}</h2>
+              </div>
+              <h1 className="text-xl md:text-2xl font-black text-slate-800 uppercase tracking-tighter">
+                {activeTab === 'dashboard' ? 'The Decision Laboratory' : isOM ? (OM_DATA as any)[Object.keys(OM_DATA).find(k => (OM_DATA as any)[k].title?.toLowerCase().includes(activeSection?.label.toLowerCase()) || k === activeTab) || 'pathophysiology'].title : isVascular ? (VASCULAR_DATA as any)[activeTab]?.title : isBursaMuscle ? (BURSA_MUSCLE_DATA as any)[activeTab]?.title : isSequelae ? (SEQUELAE_DATA as any)[activeTab]?.title : isPediatric ? (PEDIATRIC_DATA as any)[activeTab]?.title : isCierny ? (CIERNY_DATA as any)[activeTab]?.title : isPelvic ? (PELVIC_DATA as any)[activeTab]?.title : isInterventional ? (DIAGNOSTIC_INTERVENTIONAL_DATA as any)[activeTab]?.title : isPrevention ? (PREVENTION_DATA as any)[activeTab]?.title : isDiabetic ? (DIABETIC_DATA as any)[activeTab]?.title : isPharma ? (PHARMA_DATA as any)[activeTab]?.title : isBiomech ? (BIOMECH_DATA as any)[activeTab]?.title : isTrauma ? (TRAUMA_INFECTION_DATA as any)[activeTab]?.title : isTB ? (TB_DATA as any)[activeTab]?.title : isSoftTissue ? (SOFT_TISSUE_DATA as any)[activeTab]?.title : isAtypicalGlobal ? (ATYPICAL_GLOBAL_DATA as any)[activeTab]?.title : isAdvanced ? (ADV_INFECTION_DATA as any)[activeTab]?.title : isDifferential ? (MIMIC_DATA as any)[activeTab]?.title : isEmergency ? (REGIONAL_DATA as any)[activeTab]?.title : isComplex ? (CIERNY_DATA as any)[activeTab]?.title : isForensic ? (FORENSIC_DATA as any)[activeTab]?.title : "Infection Hub Master"}
+              </h1>
+            </div>
           </div>
-            <div className={`px-3 py-1 ${isPrevention ? 'bg-blue-50 text-blue-700 border-blue-100' : isPelvic ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isCierny ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isPediatric ? 'bg-pink-50 text-pink-700 border-pink-100' : isInterventional ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isSequelae ? 'bg-red-50 text-red-700 border-red-100' : isBursaMuscle ? 'bg-orange-50 text-orange-700 border-orange-100' : isVascular ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isBiomech ? 'bg-blue-50 text-blue-700 border-blue-100' : isPharma ? 'bg-amber-50 text-amber-700 border-amber-100' : isNiche ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isAtypicalRare ? 'bg-blue-50 text-blue-700 border-blue-100' : isFrontier ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isTrauma ? 'bg-orange-50 text-orange-700 border-orange-100' : isTB ? 'bg-amber-50 text-amber-700 border-amber-100' : isStealth ? 'bg-teal-50 text-teal-700 border-teal-100' : isSoftTissue ? 'bg-orange-50 text-orange-700 border-orange-100' : isForensic ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isAtypicalGlobal ? 'bg-blue-50 text-blue-700 border-blue-100' : isDifferential ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isEmergency ? 'bg-orange-50 text-orange-700 border-orange-100' : isAdvanced ? 'bg-purple-50 text-purple-700 border-purple-100' : isComplex ? 'bg-red-50 text-red-700 border-red-100' : isDiabetic ? 'bg-rose-50 text-rose-700 border-rose-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'} rounded-full border flex items-center gap-2`}>
-                {isPrevention ? <ShieldCheck size={12} /> : isPelvic ? <Map size={12} /> : isCierny ? <Scale size={12} /> : isPediatric ? <Baby size={12} /> : isInterventional ? <Syringe size={12} /> : isSequelae ? <Skull size={12} /> : isBursaMuscle ? <Flame size={12} /> : isVascular ? <Waypoints size={12} /> : isBiomech ? <Settings size={12} /> : isPharma ? <Pill size={12} /> : isNiche ? <Target size={12} /> : isAtypicalRare ? <Bug size={12} /> : isFrontier ? <Settings size={12} /> : isTrauma ? <Construction size={12} /> : isTB ? <Globe size={12} /> : isStealth ? <Wind size={12} /> : isSoftTissue ? <Hand size={12} /> : isForensic ? <FlaskConical size={12} /> : isAtypicalGlobal ? <Globe size={12} /> : isDifferential ? <Scale size={12} /> : isEmergency ? <AlertTriangle size={12} /> : isAdvanced ? <Search size={12} /> : isComplex ? <Thermometer size={12} /> : isDiabetic ? <Footprints size={12} /> : <Activity size={12} />}
-                <span className="text-[9px] font-black uppercase tracking-widest italic">
-                  {isPrevention ? 'Prevention Hub' : isPelvic ? 'Pelvic Matrix' : isCierny ? 'Cierny-Mader' : isPediatric ? 'Pediatric Hub' : isInterventional ? 'Interventional Hub' : isSequelae ? 'Sequelae Hub' : isBursaMuscle ? 'Myo-Sepsis' : isVascular ? 'Vascular Hub' : isBiomech ? 'Mech-Infect' : isPharma ? 'Bio-Pharma Hub' : isNiche ? 'Niche Inflammatory' : isAtypicalRare ? 'Atypical Matrix' : isFrontier ? 'Bio-Frontier' : isTrauma ? 'Trauma Sepsis' : isTB ? 'TB Hub' : isStealth ? 'Stealth Matrix' : isSoftTissue ? 'Soft Tissue Hub' : isForensic ? 'Forensic Matrix' : isAtypicalGlobal ? 'Atypical Matrix' : isDifferential ? 'Differential Hub' : isEmergency ? 'Emergency Hub' : isAdvanced ? 'Advanced Hub' : isComplex ? 'Acute Protocol' : isDiabetic ? 'Diabetic Hub' : 'Core Basics'}
+          
+          {activeTab !== 'dashboard' && (
+             <div className={`hidden md:flex px-4 py-1.5 ${isPrevention ? 'bg-blue-50 text-blue-700 border-blue-100' : isPelvic ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isCierny ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isPediatric ? 'bg-pink-50 text-pink-700 border-pink-100' : isInterventional ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isSequelae ? 'bg-red-50 text-red-700 border-red-100' : isBursaMuscle ? 'bg-orange-50 text-orange-700 border-orange-100' : isVascular ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isBiomech ? 'bg-blue-50 text-blue-700 border-blue-100' : isPharma ? 'bg-amber-50 text-amber-700 border-amber-100' : isNiche ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isAtypicalRare ? 'bg-blue-50 text-blue-700 border-blue-100' : isFrontier ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isTrauma ? 'bg-orange-50 text-orange-700 border-orange-100' : isTB ? 'bg-amber-50 text-amber-700 border-amber-100' : isStealth ? 'bg-teal-50 text-teal-700 border-teal-100' : isSoftTissue ? 'bg-orange-50 text-orange-700 border-orange-100' : isForensic ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : isAtypicalGlobal ? 'bg-blue-50 text-blue-700 border-blue-100' : isDifferential ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : isEmergency ? 'bg-orange-50 text-orange-700 border-orange-100' : isAdvanced ? 'bg-purple-50 text-purple-700 border-purple-100' : isComplex ? 'bg-red-50 text-red-700 border-red-100' : isDiabetic ? 'bg-rose-50 text-rose-700 border-rose-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'} rounded-2xl border items-center gap-2 shadow-sm whitespace-nowrap`}>
+                {isPrevention ? <ShieldCheck size={14} /> : isPelvic ? <Map size={14} /> : isCierny ? <Scale size={14} /> : isPediatric ? <Baby size={14} /> : isInterventional ? <Syringe size={14} /> : isSequelae ? <Skull size={14} /> : isBursaMuscle ? <Flame size={14} /> : isVascular ? <Waypoints size={14} /> : isBiomech ? <Settings size={14} /> : isPharma ? <Pill size={14} /> : isNiche ? <Target size={14} /> : isAtypicalRare ? <Bug size={14} /> : isFrontier ? <Settings size={14} /> : isTrauma ? <Construction size={14} /> : isTB ? <Globe size={14} /> : isStealth ? <Wind size={14} /> : isSoftTissue ? <Hand size={14} /> : isForensic ? <FlaskConical size={14} /> : isAtypicalGlobal ? <Globe size={14} /> : isDifferential ? <Scale size={14} /> : isEmergency ? <AlertTriangle size={14} /> : isAdvanced ? <Search size={14} /> : isComplex ? <Thermometer size={14} /> : isDiabetic ? <Footprints size={14} /> : <Activity size={14} />}
+                <span className="text-[10px] font-black uppercase tracking-widest italic">
+                  {activeSection?.group}
                 </span>
              </div>
+          )}
         </header>
 
         <div className="p-6 md:p-10 space-y-8 max-w-none w-full">
           <AnimatePresence mode="wait">
-            {/* MYO-SEPSIS HUB TOPICS */}
-            {isBursaMuscle ? (
+            {activeTab === 'dashboard' ? (
+               <motion.div
+                 key="dashboard"
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: -20 }}
+                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+               >
+                 {Object.entries(groupedSections).map(([group, items]) => {
+                   const meta = HUB_METADATA[group] || { icon: Database, colorClass: 'bg-slate-500', bgClass: 'bg-slate-50', textClass: 'text-slate-700', desc: 'Topic collection.' };
+                   const Icon = meta.icon;
+                   return (
+                     <button
+                       key={group}
+                       onClick={() => {
+                         if (!expandedGroups.includes(group)) toggleGroup(group);
+                         setActiveTab(items[0].id);
+                       }}
+                       className="group bg-white p-8 rounded-[3rem] border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all text-left flex flex-col relative overflow-hidden"
+                     >
+                       <div className={`w-14 h-14 rounded-2xl ${meta.bgClass} ${meta.textClass} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                         <Icon size={28} />
+                       </div>
+                       <h3 className="text-xl font-black text-slate-800 uppercase tracking-tighter italic mb-2">{group}</h3>
+                       <p className="text-xs text-slate-500 font-medium leading-relaxed italic mb-6">
+                         {meta.desc}
+                       </p>
+                       <div className="mt-auto flex items-center justify-between">
+                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">{items.length} Modules</span>
+                         <div className={`p-2 rounded-full ${meta.bgClass} ${meta.textClass} opacity-0 group-hover:opacity-100 transition-opacity`}>
+                           <ChevronRight size={14} />
+                         </div>
+                       </div>
+                       <Icon size={120} className="absolute -bottom-10 -right-10 text-slate-50 opacity-40 group-hover:rotate-12 transition-transform duration-700" />
+                     </button>
+                   );
+                 })}
+               </motion.div>
+            ) : isBursaMuscle ? (
               <motion.div 
                 key={activeTab}
                 initial={{ opacity: 0, scale: 0.98 }}

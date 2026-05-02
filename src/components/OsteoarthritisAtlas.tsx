@@ -406,7 +406,7 @@ export default function OsteoarthritisAtlas({ onBack }: OsteoarthritisAtlasProps
           {/* SECTION: Management */}
           {activeSection === 'management' && (
             <div className="space-y-8 animate-in slide-in-from-left duration-500">
-               <div className="max-w-4xl mx-auto space-y-6">
+               <div className="w-full space-y-6">
                   {OA_DATA.managementSteps.map((step) => (
                      <div 
                        key={step.step}
@@ -443,7 +443,7 @@ export default function OsteoarthritisAtlas({ onBack }: OsteoarthritisAtlasProps
                   ))}
                </div>
 
-               <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-12">
+               <div className="grid md:grid-cols-2 gap-6 w-full mt-12">
                   <div className="p-8 bg-slate-900 border border-slate-800 rounded-[2rem] text-white">
                     <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest mb-6 flex items-center gap-2">
                        <XCircle size={16} /> Avoid / Discredited
