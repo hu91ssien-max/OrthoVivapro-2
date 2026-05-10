@@ -11,15 +11,27 @@ import {
   Target,
   AlertCircle,
   ClipboardList,
-  Zap
+  Zap,
+  Ruler,
+  Dna,
+  Bone,
+  Footprints,
+  Scissors,
+  Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from "motion/react";
-import CTEVRevision from "./CTEVRevision";
+import ClubfootHub from "./ClubfootHub";
+import VerticalTalusHub from "./VerticalTalusHub";
 import DDHRevision from "./DDHRevision";
+import PediatricCoxaVara from "./PediatricCoxaVara";
+import OsteogenesisImperfectaHub from "./OsteogenesisImperfectaHub";
+import RadialNeckRevision from "./RadialNeckRevision";
+import OsteochondromaHub from "./OsteochondromaHub";
 
 interface RevisionProps {
   onBack: () => void;
   onPractice: () => void;
+  initialTopic?: string | null;
 }
 
 const PediatricFemurRevision = ({ onBack }: { onBack: () => void }) => {
@@ -72,7 +84,7 @@ const PediatricFemurRevision = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* Header */}
-      <header className="max-w-6xl mx-auto p-4 md:p-8 mb-10 border-b-2 border-slate-200 pb-8 flex flex-col md:flex-row justify-between items-end gap-4 transition-colors">
+      <header className="w-full px-4 md:px-8 py-8 mb-10 border-b-2 border-slate-200 pb-8 flex flex-col md:flex-row justify-between items-end gap-4 transition-colors">
         <div>
           <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic transition-colors">
             Pediatric <span className="text-blue-600">Femur Masterclass</span>
@@ -94,7 +106,7 @@ const PediatricFemurRevision = ({ onBack }: { onBack: () => void }) => {
         </nav>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="w-full px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* SECTION 1: AGE-SPECIFIC TREATMENT (ACTIVE CARD) */}
         <section className="lg:col-span-8 space-y-6">
@@ -262,7 +274,7 @@ const PediatricFemurRevision = ({ onBack }: { onBack: () => void }) => {
 
       </main>
 
-      <footer className="max-w-6xl mx-auto mt-12 mb-12 flex justify-center">
+      <footer className="w-full px-4 md:px-8 mt-12 mb-12 flex justify-center">
         <div className="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-black uppercase tracking-[0.5em] flex items-center gap-3 transition-colors">
           <Target size={14} className="text-blue-400" />
           Pediatric Orthopedic Review • Board Standard 2026
@@ -272,11 +284,15 @@ const PediatricFemurRevision = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const PediatricOrthoRevision = ({ onBack, onPractice }: RevisionProps) => {
-  const [activeTopic, setActiveTopic] = useState<"menu" | "ddh" | "ctev" | "femur">("menu");
+const PediatricOrthoRevision = ({ onBack, onPractice, initialTopic }: RevisionProps) => {
+  const [activeTopic, setActiveTopic] = useState<"menu" | "ddh" | "ctev" | "femur" | "coxaVara" | "oi" | "radialNeck" | "osteochondroma" | "verticalTalus">((initialTopic as any) || "menu");
 
   if (activeTopic === "ctev") {
-    return <CTEVRevision onBack={() => setActiveTopic("menu")} onPractice={onPractice} />;
+    return <ClubfootHub onBack={() => setActiveTopic("menu")} />;
+  }
+
+  if (activeTopic === "verticalTalus") {
+    return <VerticalTalusHub onBack={() => setActiveTopic("menu")} />;
   }
 
   if (activeTopic === "ddh") {
@@ -285,6 +301,55 @@ const PediatricOrthoRevision = ({ onBack, onPractice }: RevisionProps) => {
 
   if (activeTopic === "femur") {
     return <PediatricFemurRevision onBack={() => setActiveTopic("menu")} />;
+  }
+
+  if (activeTopic === "coxaVara") {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+        <button 
+          onClick={() => setActiveTopic("menu")}
+          className="mb-8 flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Back to Menu
+        </button>
+        <PediatricCoxaVara />
+      </div>
+    );
+  }
+
+  if (activeTopic === "oi") {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+        <button 
+          onClick={() => setActiveTopic("menu")}
+          className="mb-8 flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Back to Menu
+        </button>
+        <OsteogenesisImperfectaHub />
+      </div>
+    );
+  }
+
+  if (activeTopic === "radialNeck") {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+        <button 
+          onClick={() => setActiveTopic("menu")}
+          className="mb-8 flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Back to Menu
+        </button>
+        <RadialNeckRevision />
+      </div>
+    );
+  }
+
+  if (activeTopic === "osteochondroma") {
+    return <OsteochondromaHub onBack={() => setActiveTopic("menu")} />;
   }
 
   return (
@@ -320,7 +385,7 @@ const PediatricOrthoRevision = ({ onBack, onPractice }: RevisionProps) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
-          className="max-w-4xl mx-auto px-4 py-16"
+          className="w-full px-4 md:px-8 py-16"
         >
           <h2 className="text-3xl font-black text-slate-900 uppercase italic mb-2 tracking-tighter transition-colors">
             Pediatric <span className="text-indigo-600">Review Portal</span>
@@ -347,12 +412,12 @@ const PediatricOrthoRevision = ({ onBack, onPractice }: RevisionProps) => {
               className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-indigo-500 transition-all"
             >
               <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <Presentation size={30} />
+                <Footprints size={30} />
               </div>
-              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">CTEV</h3>
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Clubfoot Assessment (Pirani/Dimeglio)</p>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Clubfoot-OS</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">CTEV Pathoanatomy & Ponseti Protocol</p>
               <div className="mt-8 flex items-center gap-2 text-indigo-600 text-[10px] font-black uppercase tracking-widest">
-                View Classification Guide <ChevronRight size={14} />
+                Open Mastery Hub <ChevronRight size={14} />
               </div>
             </button>
 
@@ -367,6 +432,75 @@ const PediatricOrthoRevision = ({ onBack, onPractice }: RevisionProps) => {
               <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Pediatric Femur Fractures Masterclass</p>
               <div className="mt-8 flex items-center gap-2 text-emerald-600 text-[10px] font-black uppercase tracking-widest">
                 View Surgical Guide <ChevronRight size={14} />
+              </div>
+            </button>
+
+            <button 
+              onClick={() => setActiveTopic("coxaVara")}
+              className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-blue-500 transition-all"
+            >
+              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <Ruler size={30} />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Coxa Vara</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Pediatric Coxa Vara & Angle Simulation</p>
+              <div className="mt-8 flex items-center gap-2 text-blue-600 text-[10px] font-black uppercase tracking-widest">
+                View Masterclass <ChevronRight size={14} />
+              </div>
+            </button>
+
+            <button 
+              onClick={() => setActiveTopic("oi")}
+              className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-indigo-500 transition-all"
+            >
+              <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <Dna size={30} />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">OI Hub</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Osteogenesis Imperfecta & Brittle Bone</p>
+              <div className="mt-8 flex items-center gap-2 text-indigo-600 text-[10px] font-black uppercase tracking-widest">
+                View Master Series <ChevronRight size={14} />
+              </div>
+            </button>
+
+            <button 
+              onClick={() => setActiveTopic("radialNeck")}
+              className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-rose-500 transition-all"
+            >
+              <div className="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                <Bone size={30} />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Radial Neck</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Pediatric Radial Neck Hub & O'Brien Matrix</p>
+              <div className="mt-8 flex items-center gap-2 text-rose-600 text-[10px] font-black uppercase tracking-widest">
+                View Revision Guide <ChevronRight size={14} />
+              </div>
+            </button>
+
+            <button 
+              onClick={() => setActiveTopic("osteochondroma")}
+              className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-teal-500 transition-all"
+            >
+              <div className="w-14 h-14 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+                <Target size={30} />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Osteochondroma</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Benign Exostosis & Malignancy Screening</p>
+              <div className="mt-8 flex items-center gap-2 text-teal-600 text-[10px] font-black uppercase tracking-widest">
+                Explore Matrix <ChevronRight size={14} />
+              </div>
+            </button>
+            <button 
+              onClick={() => setActiveTopic("verticalTalus")}
+              className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-indigo-500 transition-all"
+            >
+              <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                <Search size={30} />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Vertical Talus</h3>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">The Rigid Flatfoot & Dobbs Protocol</p>
+              <div className="mt-8 flex items-center gap-2 text-indigo-600 text-[10px] font-black uppercase tracking-widest">
+                Open Revision Hub <ChevronRight size={14} />
               </div>
             </button>
           </div>

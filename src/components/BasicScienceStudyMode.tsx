@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from "motion/react";
+import PediatricCoxaVara from './PediatricCoxaVara';
+import OsteogenesisImperfectaHub from './OsteogenesisImperfectaHub';
 import { 
   Lock,
   Hammer,
@@ -27,6 +29,7 @@ import {
   ClipboardList,
   Flame,
   Skull,
+  Ruler,
   Hand,
   Footprints,
   Scale,
@@ -846,6 +849,16 @@ const PEDIATRIC_DATA = {
       { type: "Combined", d: "The most severe; leads to both shortening and angulation." }
     ],
     pearl: "Map the bar with a CT scan. If the bar is < 50% of the physeal area, surgical resection (bar excision) may be attempted."
+  },
+  coxaVara: {
+    title: "Coxa Vara Masterclass",
+    niche: "Biomechanical Failures",
+    pearl: "Convert shear forces into compression with a valgus osteotomy."
+  },
+  oiHub: {
+    title: "Osteogenesis Imperfecta Hub",
+    niche: "Type I Collagen Defects",
+    pearl: "Telescoping rods provide internal splinting that grows with the child."
   }
 };
 
@@ -1250,6 +1263,8 @@ const SECTIONS = [
   { id: 'sickleCell', label: 'Salmonella / Sickle', icon: Dna, group: 'PEDIATRIC HUB' },
   { id: 'neonatal', label: 'Neonatal Sepsis', icon: ShieldAlert, group: 'PEDIATRIC HUB' },
   { id: 'physealBar', label: 'Growth Arrest', icon: TrendingDown, group: 'PEDIATRIC HUB' },
+  { id: 'oiHub', label: 'OI Hub', icon: Dna, group: 'PEDIATRIC HUB' },
+  { id: 'coxaVara', label: 'Coxa Vara Class', icon: Ruler, group: 'PEDIATRIC HUB' },
   { id: 'safeZones', label: 'Safe Zones', icon: Map, group: 'DIAGNOSTIC INTERVENTIONAL' },
   { id: 'dryTap', label: 'Dry Tap Protocol', icon: Droplets, group: 'DIAGNOSTIC INTERVENTIONAL' },
   { id: 'media', label: 'Culture Media', icon: FlaskConical, group: 'DIAGNOSTIC INTERVENTIONAL' },
@@ -1325,7 +1340,7 @@ const BasicScienceStudyMode = () => {
   const isPelvic = ['sacroiliitis', 'symphysitis', 'ischial', 'mimics'].includes(activeTab);
   const isDiabetic = ['charcot', 'osteomyelitis'].includes(activeTab);
   const isPharma = ['resistance', 'penetration', 'toxicities', 'stewardship'].includes(activeTab);
-  const isPediatric = ['subacute', 'sickleCell', 'neonatal', 'physealBar'].includes(activeTab);
+  const isPediatric = ['subacute', 'sickleCell', 'neonatal', 'physealBar', 'coxaVara', 'oiHub'].includes(activeTab);
   const isInterventional = ['safeZones', 'dryTap', 'media', 'biopsy'].includes(activeTab);
   const isPrevention = ['orEnvironment', 'skinPrep', 'prophylaxis', 'irrigation'].includes(activeTab);
 
@@ -1974,8 +1989,14 @@ const BasicScienceStudyMode = () => {
                 exit={{ opacity: 0, scale: 0.98 }}
                 className="space-y-6 text-left"
               >
-                {/* Hero Card */}
-                <div className="bg-white p-10 rounded-[3.5rem] border border-slate-200 shadow-sm relative overflow-hidden group">
+                {activeTab === 'coxaVara' ? (
+                  <PediatricCoxaVara />
+                ) : activeTab === 'oiHub' ? (
+                  <OsteogenesisImperfectaHub />
+                ) : (
+                  <>
+                    {/* Hero Card */}
+                    <div className="bg-white p-10 rounded-[3.5rem] border border-slate-200 shadow-sm relative overflow-hidden group">
                    <div className="flex flex-col md:flex-row items-center gap-10 relative z-10 text-left">
                       <div className="p-8 bg-pink-50 text-pink-600 rounded-[2.5rem] shadow-inner transition-transform group-hover:scale-105 duration-500">
                          {activeTab === 'neonatal' ? <Baby size={48} /> : activeTab === 'sickleCell' ? <Dna size={48} /> : <Target size={48} />}
@@ -2085,6 +2106,8 @@ const BasicScienceStudyMode = () => {
                       </div>
                    </div>
                 </div>
+                  </>
+                )}
               </motion.div>
             ) : isPharma ? (
               <motion.div 

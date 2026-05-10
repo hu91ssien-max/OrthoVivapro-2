@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import OsteochondromaHub from './OsteochondromaHub';
 import { 
   Microscope, 
   Bone, 
@@ -592,6 +593,7 @@ const OncologyLab = ({ onBack }: OncologyLabProps) => {
   const [softTissueMode, setSoftTissueMode] = useState('sarcoma');
   const [softTissueAtlasTab, setSoftTissueAtlasTab] = useState('gctts');
   const [mimicTab, setMimicTab] = useState('nora');
+  const [showOsteochondromaHub, setShowOsteochondromaHub] = useState(false);
 
   const toggleSalvage = (id: string) => {
     setSalvageScore(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -621,6 +623,10 @@ const OncologyLab = ({ onBack }: OncologyLabProps) => {
   const currentMimic = useMemo(() => REACTIVE_MIMICS_DATA[mimicTab as keyof typeof REACTIVE_MIMICS_DATA], [mimicTab]);
 
   const currentRecon = RECON_MODES[activeRecon as keyof typeof RECON_MODES] || RECON_MODES.endoprosthetic;
+
+  if (showOsteochondromaHub) {
+    return <OsteochondromaHub onBack={() => setShowOsteochondromaHub(false)} />;
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden">
@@ -1576,12 +1582,18 @@ const OncologyLab = ({ onBack }: OncologyLabProps) => {
 
                 <div className="bg-white p-8 rounded-[3rem] border border-slate-200 shadow-sm flex flex-col justify-center">
                   <h3 className="text-xl font-black mb-6 uppercase tracking-tight text-slate-800">Osteochondroma (Exostosis)</h3>
-                  <div className="space-y-4 text-sm text-slate-600 leading-relaxed italic">
+                  <div className="space-y-4 text-sm text-slate-600 leading-relaxed italic mb-6">
                     <p>• The most common benign bone 'tumour'.</p>
                     <p>• A cartilage-capped bony outgrowth from the metaphysis.</p>
                     <p>• <strong>The Rule:</strong> The cortex and medulla of the lesion are continuous with the host bone.</p>
                     <p>• Malignant transformation (to Chondrosarcoma) is &lt;1%, but increases if the cartilage cap is &gt;2cm in an adult.</p>
                   </div>
+                  <button 
+                    onClick={() => setShowOsteochondromaHub(true)}
+                    className="w-full py-4 bg-teal-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-teal-700 transition-all flex items-center justify-center gap-2"
+                  >
+                    Open Revision Matrix <ArrowRight size={16} />
+                  </button>
                 </div>
               </div>
             </div>

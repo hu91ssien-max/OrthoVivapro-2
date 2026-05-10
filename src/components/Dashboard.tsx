@@ -33,6 +33,8 @@ const SEARCHABLE_TOPICS = [
   { id: 'trauma', name: 'Femur Fractures', type: 'Topic', icon: Crosshair, textColor: 'text-red-500' },
   { id: 'trauma', name: 'AO Classification', type: 'Topic', icon: Crosshair, textColor: 'text-red-500' },
   { id: 'pediatric', name: 'DDH', type: 'Topic', icon: Activity, textColor: 'text-rose-500' },
+  { id: 'pediatric', name: 'Coxa Vara', type: 'Topic', icon: Activity, textColor: 'text-rose-500' },
+  { id: 'pediatric', name: 'Osteogenesis Imperfecta', type: 'Topic', icon: Activity, textColor: 'text-rose-500' },
   { id: 'pediatric', name: 'SUFE', type: 'Topic', icon: Activity, textColor: 'text-rose-500' },
   { id: 'sports', name: 'ACL Reconstruction', type: 'Topic', icon: Heart, textColor: 'text-emerald-500' },
   { id: 'basic', name: 'Osteoarthritis Atlas', type: 'Clinical Tool', icon: Activity, textColor: 'text-blue-600' },
@@ -93,7 +95,7 @@ export default function Dashboard({ onSelect, recentItem, activeCategory }: Dash
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 pb-20">
+    <div className="w-full px-4 md:px-8 py-12 pb-20 mt-4">
       <motion.div 
         key={activeCategory}
         initial={{ opacity: 0, y: 20 }}

@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Bone, User, BarChart3, Settings, Clock as ClockIcon, LogOut, ShieldCheck, Menu } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import GlobalSearch from "./GlobalSearch";
 
 interface NavbarProps {
   setPage: (page: string) => void;
+  onNavigate: (page: string, category?: string, extra?: any) => void;
 }
 
-export default function Navbar({ setPage, onMenuClick }: NavbarProps & { onMenuClick?: () => void }) {
+export default function Navbar({ setPage, onMenuClick, onNavigate }: NavbarProps & { onMenuClick?: () => void }) {
   const { user, logout } = useAuth();
   const [baghdadTime, setBaghdadTime] = useState("");
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -48,6 +50,8 @@ export default function Navbar({ setPage, onMenuClick }: NavbarProps & { onMenuC
         </div>
         
         <div className="flex items-center gap-4">
+          <GlobalSearch onNavigate={onNavigate} />
+          
           <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-100 transition-colors">
             <ClockIcon className="w-3.5 h-3.5 text-indigo-600" />
             <span className="text-xs font-mono font-medium text-gray-600">{baghdadTime}</span>

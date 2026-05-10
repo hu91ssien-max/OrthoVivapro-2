@@ -20,10 +20,11 @@ import PelvicRingDisruptions from "./PelvicRingDisruptions";
 interface TraumaRevisionProps {
   onBack: () => void;
   onPractice: () => void;
+  initialTopic?: string | null;
 }
 
-const TraumaRevision = ({ onBack, onPractice }: TraumaRevisionProps) => {
-  const [activeTopic, setActiveTopic] = useState<"menu" | "femoral_neck" | "intertrochanteric" | "subtrochanteric" | "femoral_shaft" | "distal_femur" | "pelvic_ring">("menu");
+const TraumaRevision = ({ onBack, onPractice, initialTopic }: TraumaRevisionProps) => {
+  const [activeTopic, setActiveTopic] = useState<"menu" | "femoral_neck" | "intertrochanteric" | "subtrochanteric" | "femoral_shaft" | "distal_femur" | "pelvic_ring">((initialTopic as any) || "menu");
 
   if (activeTopic === "femoral_neck") {
     return <FemoralNeckFracture onBack={() => setActiveTopic("menu")} />;

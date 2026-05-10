@@ -11,6 +11,7 @@ import THAFixationInfographic from "./components/THAFixationInfographic";
 import BasicScienceRevision from "./components/BasicScienceRevision";
 import TraumaRevision from "./components/TraumaRevision";
 import TraumaStudyHub from "./components/TraumaStudyHub";
+import SpineRevision from "./components/SpineRevision";
 import OncologyMaster from "./components/OncologyMaster";
 import SynoNeuroLab from "./components/SynoNeuroLab";
 import OncologyLab from "./components/OncologyLab";
@@ -32,6 +33,7 @@ export default function App() {
   const [recentItem, setRecentItem] = useState<{ id: string, name: string, mode: string } | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [pathologyStudyView, setPathologyStudyView] = useState<"standard" | "synoneuro" | "metalab" | "sclerotic">("standard");
+  const [initialTopic, setInitialTopic] = useState<string | null>(null);
 
   useEffect(() => {
     const savedRecent = localStorage.getItem("orthoviva_recent");
@@ -60,6 +62,15 @@ export default function App() {
   const handleSidebarSelect = (catId: string) => {
     setCategory(catId);
     setPage("dashboard"); // Go back to specialty home when selecting from sidebar
+  };
+
+  const handleNavigate = (pageId: string, catId?: string, extra?: any) => {
+    if (catId) setCategory(catId);
+    if (extra?.topicId) setInitialTopic(extra.topicId);
+    else setInitialTopic(null);
+    
+    setPage(pageId);
+    setIsSidebarOpen(false);
   };
 
   if (isLoading) {
@@ -94,6 +105,7 @@ export default function App() {
           <Navbar 
             setPage={setPage} 
             onMenuClick={() => setIsSidebarOpen(true)}
+            onNavigate={handleNavigate}
           />
         )}
 
@@ -174,7 +186,8 @@ export default function App() {
               {category === "pediatric" ? (
                 <PediatricOrthoRevision 
                   onBack={() => setPage("dashboard")} 
-                  onPractice={() => setPage("mcq")} 
+                  onPractice={() => setPage("mcq")}
+                  initialTopic={initialTopic}
                 />
               ) : category === "pathology" ? (
                 <OncologyLab 
@@ -204,6 +217,16 @@ export default function App() {
                     setIsStudyMode(true);
                     setPage("mcq");
                   }}
+                  initialTopic={initialTopic}
+                />
+              ) : category === "spine" ? (
+                <SpineRevision 
+                  onBack={() => setPage("dashboard")}
+                  onPractice={() => {
+                    setIsStudyMode(true);
+                    setPage("mcq");
+                  }}
+                  initialTopic={initialTopic}
                 />
               ) : (
                 <div className="max-w-4xl mx-auto py-20 text-center">
