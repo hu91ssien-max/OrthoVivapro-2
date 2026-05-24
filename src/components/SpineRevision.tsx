@@ -15,6 +15,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import TLICSCalculator from './TLICSCalculator';
 import DiscectomyHub from './DiscectomyHub';
 
+import IntervertebralDiscHub from './IntervertebralDiscHub';
+
 interface SpineRevisionProps {
   onBack: () => void;
   onPractice: () => void;
@@ -22,7 +24,7 @@ interface SpineRevisionProps {
 }
 
 const SpineRevision = ({ onBack, onPractice, initialTopic }: SpineRevisionProps) => {
-  const [activeTopic, setActiveTopic] = useState<"menu" | "tlics" | "discectomy">((initialTopic as any) || "menu");
+  const [activeTopic, setActiveTopic] = useState<"menu" | "tlics" | "discectomy" | "disc">((initialTopic as any) || "menu");
 
   if (activeTopic === "tlics") {
     return <TLICSCalculator onBack={() => setActiveTopic("menu")} />;
@@ -30,6 +32,10 @@ const SpineRevision = ({ onBack, onPractice, initialTopic }: SpineRevisionProps)
 
   if (activeTopic === "discectomy") {
     return <DiscectomyHub onBack={() => setActiveTopic("menu")} />;
+  }
+
+  if (activeTopic === "disc") {
+    return <IntervertebralDiscHub onBack={() => setActiveTopic("menu")} />;
   }
 
   return (
@@ -110,6 +116,21 @@ const SpineRevision = ({ onBack, onPractice, initialTopic }: SpineRevisionProps)
           <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Lumbar Microdiscectomy Protocol & Technique</p>
           <div className="mt-8 flex items-center gap-2 text-blue-600 text-[10px] font-black uppercase tracking-widest">
             Open Revision Hub <ChevronRight size={14} />
+          </div>
+        </button>
+
+        {/* Intervertebral Disc Hub */}
+        <button 
+          onClick={() => setActiveTopic("disc")}
+          className="group flex flex-col p-8 bg-white border border-slate-200 rounded-[2.5rem] text-left hover:shadow-2xl hover:border-blue-600 transition-all"
+        >
+          <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <Layers size={30} />
+          </div>
+          <h3 className="text-2xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 transition-colors">Disc Anatomy</h3>
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-wider transition-colors">Structural Architecture & Biomechanics</p>
+          <div className="mt-8 flex items-center gap-2 text-blue-600 text-[10px] font-black uppercase tracking-widest">
+            Open Analytics <ChevronRight size={14} />
           </div>
         </button>
 

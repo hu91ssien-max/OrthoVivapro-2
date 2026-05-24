@@ -16,7 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>({ username: "Guest", role: "user" });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    setUser(null);
+    setUser({ username: "Guest", role: "user" });
     localStorage.removeItem("ortho_user");
     sessionStorage.removeItem("ortho_user");
   };
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!user,
+        isAuthenticated: true,
         isLoading,
         login,
         logout,

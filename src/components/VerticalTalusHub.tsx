@@ -18,8 +18,11 @@ import {
   Bone,
   Crosshair,
   Eye,
-  ArrowLeft
+  ArrowLeft,
+  Sparkles
 } from 'lucide-react';
+import VerticalTalusMasterclass from './VerticalTalusMasterclass';
+import VerticalTalusDashboard from './VerticalTalusDashboard';
 
 const TALUS_DATA = {
   assessment: {
@@ -72,8 +75,18 @@ interface VerticalTalusHubProps {
 
 const VerticalTalusHub = ({ onBack }: VerticalTalusHubProps) => {
   const [activeTab, setActiveTab] = useState('assessment');
+  const [showMasterclass, setShowMasterclass] = useState(false);
+  const [showMcRae, setShowMcRae] = useState(false);
 
   const current = useMemo(() => TALUS_DATA[activeTab as keyof typeof TALUS_DATA], [activeTab]);
+
+  if (showMasterclass) {
+    return <VerticalTalusMasterclass onBack={() => setShowMasterclass(false)} />;
+  }
+
+  if (showMcRae) {
+    return <VerticalTalusDashboard onBack={() => setShowMcRae(false)} />;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50 font-sans text-slate-900 border-t border-slate-200">
@@ -115,6 +128,30 @@ const VerticalTalusHub = ({ onBack }: VerticalTalusHubProps) => {
               <ChevronRight size={14} className={activeTab === item.id ? 'opacity-100 hidden lg:block' : 'opacity-0'} />
             </button>
           ))}
+          
+          <div className="pt-4 mt-4 border-t border-white/5 hidden lg:block space-y-2">
+            <button
+              onClick={() => setShowMasterclass(true)}
+              className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl text-xs font-black transition-all bg-indigo-900/40 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white group"
+            >
+              <div className="flex items-center gap-3">
+                <Sparkles size={16} className="group-hover:animate-pulse" />
+                MASTERCLASS
+              </div>
+              <ChevronRight size={14} />
+            </button>
+
+            <button
+              onClick={() => setShowMcRae(true)}
+              className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl text-xs font-black transition-all bg-rose-900/40 text-rose-300 border border-rose-500/30 hover:bg-rose-600 hover:text-white group"
+            >
+              <div className="flex items-center gap-3">
+                <Activity size={16} className="group-hover:animate-bounce" />
+                McRAE'S DASHBOARD
+              </div>
+              <ChevronRight size={14} />
+            </button>
+          </div>
         </nav>
         
         <div className="p-6 bg-slate-900/50 hidden lg:block">

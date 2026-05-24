@@ -17,7 +17,8 @@ import {
   Bone,
   Footprints,
   Scissors,
-  Search
+  Search,
+  RotateCcw
 } from 'lucide-react';
 import { motion, AnimatePresence } from "motion/react";
 import ClubfootHub from "./ClubfootHub";
@@ -27,6 +28,7 @@ import PediatricCoxaVara from "./PediatricCoxaVara";
 import OsteogenesisImperfectaHub from "./OsteogenesisImperfectaHub";
 import RadialNeckRevision from "./RadialNeckRevision";
 import OsteochondromaHub from "./OsteochondromaHub";
+import FootDeformityDashboard from "./FootDeformityDashboard";
 
 interface RevisionProps {
   onBack: () => void;

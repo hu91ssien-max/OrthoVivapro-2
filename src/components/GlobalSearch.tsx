@@ -18,7 +18,10 @@ import {
   FileText,
   MousePointer2,
   BarChart3,
-  Footprints
+  Footprints,
+  RotateCcw,
+  Settings,
+  ShieldCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -52,10 +55,12 @@ const SEARCH_DATA = [
   // Specific Topics - Spine
   { id: 'tlics', title: 'TLICS Score / Spine Stability', description: 'Thoracolumbar Injury Classification and Severity (تصنيف الإصابة)', category: 'Spine', type: 'topic', icon: <FileText className="text-purple-400" /> },
   { id: 'discectomy', title: 'Lumbar Discectomy', description: 'Microdiscectomy technique and indications (استئصال الانزلاق الغضروفي)', category: 'Spine', type: 'topic', icon: <Scissors className="text-blue-400" /> },
+  { id: 'disc', title: 'Disc Anatomy & Biomechanics', description: 'Nucleus, Annulus, and degenerative phases (تشريح الغضروف)', category: 'Spine', type: 'topic', icon: <Layers className="text-blue-400" /> },
 
   // Specific Topics - Pediatrics
   { id: 'ddh', title: 'DDH Revision', description: 'Developmental Dysplasia of the Hip (خلع الورك الولادي)', category: 'Pediatrics', type: 'topic', icon: <FileText className="text-rose-400" /> },
   { id: 'ctev', title: 'Clubfoot Hub', description: 'CTEV Pathoanatomy & Ponseti Protocol (القدم المخلبية)', category: 'Pediatrics', type: 'topic', icon: <Footprints className="text-rose-400" /> },
+  { id: 'footDeformity', title: 'Foot Deformity Comparison', description: 'Clubfoot (TEV) vs. Vertical Talus (CVT) (مقارنة تشوهات القدم)', category: 'Pediatrics', type: 'topic', icon: <RotateCcw className="text-indigo-400" /> },
   { id: 'verticalTalus', title: 'Vertical Talus Hub', description: 'The Rigid Flatfoot & Dobbs Technique (الخلع الولادي لعظمة الكاحل)', category: 'Pediatrics', type: 'topic', icon: <SearchIcon className="text-indigo-400" /> },
   { id: 'radialNeck', title: 'Radial Neck Hub', description: 'O\'Brien classification and reduction (كسر عنق الكعبرة)', category: 'Pediatrics', type: 'topic', icon: <FileText className="text-rose-400" /> },
   { id: 'coxaVara', title: 'Coxa Vara', description: 'Pediatric coxa vara revision (فخذ أفحج)', category: 'Pediatrics', type: 'topic', icon: <FileText className="text-rose-400" /> },
@@ -71,7 +76,9 @@ const SEARCH_DATA = [
   { id: 'pelvic_ring', title: 'Pelvic Ring', description: 'Young-Burgess and hemorrhage control', category: 'Trauma', type: 'topic', icon: <FileText className="text-red-400" /> },
 
   // Adult Recon
-  { id: 'tha', title: 'THA Fixation', description: 'Total Hip Arthroplasty (تبديل مفصل الورك)', category: 'Adult Recon', type: 'topic', icon: <FileText className="text-indigo-400" /> },
+  { id: 'tha', title: 'THA Fixation', description: 'Total Hip Arthroplasty (تبديل مفصل الورك)', category: 'Adult Recon', type: 'topic', icon: <ShieldCheck className="text-blue-400" /> },
+  { id: 'tka', title: 'TKA Revision', description: 'Fact sheets, revision logic, and design (تبديل الركبة)', category: 'Adult Recon', type: 'topic', icon: <Settings className="text-amber-400" /> },
+  { id: 'tka_reading', title: 'TKA Masterclass', description: 'Campbell\'s Chapter 7 Full Reading Guide (دراسة تفصيلية للركبة)', category: 'Adult Recon', type: 'topic', icon: <BookOpen className="text-blue-500" /> },
 
   // Pathology
   { id: 'oncology', title: 'Oncology Master', description: 'Tumor classification and triage (الاورام العظمية)', category: 'Pathology', type: 'topic', icon: <ShieldAlert className="text-indigo-500" /> },
@@ -135,9 +142,6 @@ export default function GlobalSearch({ onNavigate }: GlobalSearchProps) {
     if (item.type === 'category') {
       onNavigate('dashboard', item.id);
     } else if (item.type === 'topic') {
-      // Logic to handle specific topics
-      // For now, let's assume we navigate to the specialty and then we might need to trigger a sub-view
-      // But we can simplify by just going to the revision page of that specialty
       const categoryMapping: Record<string, string> = {
         'Pediatrics': 'pediatric',
         'Trauma': 'trauma',
@@ -145,7 +149,14 @@ export default function GlobalSearch({ onNavigate }: GlobalSearchProps) {
         'Pathology': 'pathology',
         'Spine': 'spine'
       };
-      onNavigate('revision', categoryMapping[item.category] || 'trauma', { topicId: item.id });
+      
+      const pageId = item.id === 'footDeformity' ? 'study' : 'revision';
+      const isStudyMode = item.id === 'footDeformity';
+
+      onNavigate(pageId, categoryMapping[item.category] || 'trauma', { 
+        topicId: item.id,
+        isStudyMode
+      });
     } else if (item.type === 'action') {
       onNavigate(item.id);
     }

@@ -5,13 +5,16 @@ import Dashboard from "./components/Dashboard";
 import QuestionBank from "./components/QuestionBank";
 import PediatricOrthoRevision from "./components/PediatricOrthoRevision";
 import PediatricExaminationMode from "./components/PediatricExaminationMode";
+import PediatricStudyHub from "./components/PediatricStudyHub";
 import SportsMedicineRevision from "./components/SportsMedicineRevision";
 import SportsExaminationMode from "./components/SportsExaminationMode";
 import THAFixationInfographic from "./components/THAFixationInfographic";
+import ReconRevision from "./components/ReconRevision";
 import BasicScienceRevision from "./components/BasicScienceRevision";
 import TraumaRevision from "./components/TraumaRevision";
 import TraumaStudyHub from "./components/TraumaStudyHub";
 import SpineRevision from "./components/SpineRevision";
+import SpineExaminationMode from "./components/SpineExaminationMode";
 import OncologyMaster from "./components/OncologyMaster";
 import SynoNeuroLab from "./components/SynoNeuroLab";
 import OncologyLab from "./components/OncologyLab";
@@ -69,6 +72,10 @@ export default function App() {
     if (extra?.topicId) setInitialTopic(extra.topicId);
     else setInitialTopic(null);
     
+    if (extra?.isStudyMode !== undefined) setIsStudyMode(extra.isStudyMode);
+    else if (pageId === "study") setIsStudyMode(true);
+    else if (pageId === "revision") setIsStudyMode(false);
+    
     setPage(pageId);
     setIsSidebarOpen(false);
   };
@@ -120,9 +127,16 @@ export default function App() {
 
           {(page === "mcq" || page === "study") && (
             category === "pediatric" ? (
-              <PediatricExaminationMode 
-                onBack={() => setPage("dashboard")}
-              />
+              isStudyMode ? (
+                <PediatricStudyHub 
+                  onBack={() => setPage("dashboard")}
+                  initialTopic={initialTopic}
+                />
+              ) : (
+                <PediatricExaminationMode 
+                  onBack={() => setPage("dashboard")}
+                />
+              )
             ) : category === "sports" ? (
               <SportsExaminationMode 
                 onBack={() => setPage("dashboard")}
@@ -164,6 +178,10 @@ export default function App() {
               <TraumaStudyHub 
                 onBack={() => setPage("dashboard")}
               />
+            ) : category === "spine" && !isStudyMode ? (
+              <SpineExaminationMode 
+                onBack={() => setPage("dashboard")}
+              />
             ) : (
               <QuestionBank 
                 category={category} 
@@ -202,8 +220,13 @@ export default function App() {
                   }}
                 />
               ) : category === "recon" ? (
-                <THAFixationInfographic 
+                <ReconRevision
                   onBack={() => setPage("dashboard")}
+                  onPractice={() => {
+                    setIsStudyMode(true);
+                    setPage("mcq");
+                  }}
+                  initialTopic={initialTopic}
                 />
               ) : category === "basic" ? (
                 <BasicScienceRevision 
