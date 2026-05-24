@@ -80,19 +80,6 @@ export default function App() {
     setIsSidebarOpen(false);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-        <Loader2 className="w-10 h-10 text-indigo-600 animate-spin mb-4" />
-        <p className="text-gray-500 font-black uppercase tracking-[0.3em] text-xs">Initializing Secure Environment</p>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
   // Define full-screen pages
   const isFullScreenPage = page === "mcq" || page === "study" || page === "revision";
 

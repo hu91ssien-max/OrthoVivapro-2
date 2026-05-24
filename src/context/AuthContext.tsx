@@ -16,8 +16,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>({ username: "Guest", role: "user" });
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>({ username: "admin", role: "admin" });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Check localStorage for persisted session
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    setUser({ username: "Guest", role: "user" });
+    setUser({ username: "admin", role: "admin" });
     localStorage.removeItem("ortho_user");
     sessionStorage.removeItem("ortho_user");
   };
